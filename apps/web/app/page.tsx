@@ -62,7 +62,7 @@ export default function HomePage() {
               <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-[1.1]">
                 Move Anything. <br />
                 <span className="brand-gradient-text">Move Anywhere.</span> <br />
-                Move with NammaMove.
+                Move with NammaVandi.
               </h1>
 
               <p className="text-lg text-slate-300 max-w-2xl leading-relaxed">
@@ -211,7 +211,7 @@ export default function HomePage() {
             Tailored Moving Services for Every Need
           </h2>
           <p className="text-slate-400 text-base">
-            From single-room apartments to multi-floor offices and vehicle shipping, NammaMove delivers seamless transport.
+            From single-room apartments to multi-floor offices and vehicle shipping, NammaVandi delivers seamless transport.
           </p>
         </div>
 
@@ -284,7 +284,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="glass-panel p-10 sm:p-14 rounded-3xl border border-slate-800">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="text-3xl font-extrabold text-white">How NammaMove Works</h2>
+            <h2 className="text-3xl font-extrabold text-white">How NammaVandi Works</h2>
             <p className="text-slate-400 text-sm mt-2">
               Simple 4-step process from booking request to final delivery.
             </p>
@@ -317,7 +317,7 @@ export default function HomePage() {
               </div>
               <h4 className="text-base font-bold text-white">Vehicle Assignment</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                NammaMove operational team assigns vehicle & driver details with SMS/WhatsApp updates.
+                NammaVandi operational team assigns vehicle & driver details with SMS/WhatsApp updates.
               </p>
             </div>
 
@@ -338,7 +338,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-extrabold text-white">NammaMove Vehicle Fleet</h2>
+            <h2 className="text-3xl font-extrabold text-white">NammaVandi Vehicle Fleet</h2>
             <p className="text-slate-400 text-sm mt-1">
               Choose the exact truck suited for your load size.
             </p>
@@ -383,7 +383,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl font-extrabold text-white">Customer Experiences</h2>
-          <p className="text-slate-400 text-sm mt-1">Read how NammaMove helps families and businesses relocate smoothly.</p>
+          <p className="text-slate-400 text-sm mt-1">Read how NammaVandi helps families and businesses relocate smoothly.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -447,7 +447,7 @@ export default function HomePage() {
               Do I need to make an online payment while booking?
             </h4>
             <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-              No. Online payment is not required during initial booking. Once you submit your booking details and verify your phone number, our NammaMove team confirms the move and handles payment terms separately.
+              No. Online payment is not required during initial booking. Once you submit your booking details and verify your phone number, our NammaVandi team confirms the move and handles payment terms separately.
             </p>
           </div>
 
@@ -464,7 +464,7 @@ export default function HomePage() {
           <div className="glass-card p-5 rounded-2xl border border-slate-800">
             <h4 className="text-sm font-bold text-white flex items-center gap-2">
               <HelpCircle className="w-4 h-4 text-orange-400" />
-              What cities are currently covered by NammaMove?
+              What cities are currently covered by NammaVandi?
             </h4>
             <p className="text-xs text-slate-400 mt-2 leading-relaxed">
               We operate across all major South Indian hubs including Chennai, Coimbatore, Bengaluru, Madurai, Trichy, Salem, Pondicherry, Hyderabad, and Kochi.

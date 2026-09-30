@@ -17,7 +17,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: 'Home',
-          headerTitle: 'NammaMove Logistics',
+          headerTitle: 'NammaVandi Logistics',
           tabBarIcon: ({ color }) => <Text style={{ color, fontSize: 18 }}>🏠</Text>,
         }}
       />

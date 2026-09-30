@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "NammaMove",
+    "name": "NammaVandi",
     "slug": "namma-move",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,14 +13,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "in.nammamove.app"
+      "bundleIdentifier": "in.NammaVandi.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0f172a"
       },
-      "package": "in.nammamove.app"
+      "package": "in.NammaVandi.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -29,6 +29,6 @@
       "expo-router",
       "expo-secure-store"
     ],
-    "scheme": "nammamove"
+    "scheme": "NammaVandi"
   }
 }

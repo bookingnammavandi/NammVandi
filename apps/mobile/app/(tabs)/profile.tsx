@@ -5,9 +5,9 @@ export default function MobileProfileScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.card}>
-        <Text style={styles.name}>Gokul Seenuvasan</Text>
+        <Text style={styles.name}>Namma Vandi</Text>
         <Text style={styles.meta}>+91 98765 43210</Text>
-        <Text style={styles.meta}>gokulseenuvasan31@gmail.com</Text>
+        <Text style={styles.meta}>bookingnammavandi@gmail.com</Text>
       </View>
     </ScrollView>
   );

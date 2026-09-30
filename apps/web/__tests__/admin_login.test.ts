@@ -7,7 +7,7 @@ test('Admin Login API - Valid Admin Credentials', async () => {
   const req = new NextRequest('http://localhost:3000/api/admin/login', {
     method: 'POST',
     body: JSON.stringify({
-      email: 'gokulseenuvasan31@gmail.com',
+      email: 'bookingnammavandi@gmail.com',
       password: 'admin123',
     }),
   });
@@ -18,14 +18,14 @@ test('Admin Login API - Valid Admin Credentials', async () => {
   assert.strictEqual(res.status, 200);
   assert.strictEqual(data.success, true);
   assert.strictEqual(data.message, 'Admin verified successfully');
-  assert.strictEqual(data.user.email, 'gokulseenuvasan31@gmail.com');
+  assert.strictEqual(data.user.email, 'bookingnammavandi@gmail.com');
 });
 
 test('Admin Login API - Invalid Password', async () => {
   const req = new NextRequest('http://localhost:3000/api/admin/login', {
     method: 'POST',
     body: JSON.stringify({
-      email: 'gokulseenuvasan31@gmail.com',
+      email: 'bookingnammavandi@gmail.com',
       password: 'wrongpassword',
     }),
   });

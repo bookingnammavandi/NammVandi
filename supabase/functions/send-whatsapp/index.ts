@@ -26,14 +26,14 @@ serve(async (req) => {
     const token = Deno.env.get('WHATSAPP_ACCESS_TOKEN');
     const phoneNumberId = Deno.env.get('WHATSAPP_PHONE_NUMBER_ID');
 
-    const messageText = `🚛 *NammaMove Booking Update*\n\n` +
+    const messageText = `🚛 *NammaVandi Booking Update*\n\n` +
       `Hello ${customerName || 'Customer'},\n` +
       `Your booking *${bookingId}* has been updated!\n\n` +
       `📍 *Route:* ${pickupCity || 'Pickup'} ➔ ${dropCity || 'Drop'}\n` +
       `📅 *Date:* ${pickupDate || 'Scheduled'}\n` +
       `🚛 *Vehicle:* ${vehicleNumber || 'Assigned'}\n` +
       `👨‍✈️ *Driver:* ${driverName || 'Driver Assigned'} (${driverPhone || 'N/A'})\n\n` +
-      `Thank you for trusting NammaMove! Our driver will reach out prior to arrival.`;
+      `Thank you for trusting NammaVandi! Our driver will reach out prior to arrival.`;
 
     let providerStatus = 'simulated';
 

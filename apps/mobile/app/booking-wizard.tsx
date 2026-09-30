@@ -24,7 +24,7 @@ export default function MobileBookingWizard() {
           <Text style={styles.successBadge}>✅ Booking Confirmed</Text>
           <Text style={styles.title}>Thank You!</Text>
           <Text style={styles.refCode}>{bookingRef}</Text>
-          <Text style={styles.subText}>NammaMove team will contact you shortly to confirm your move schedule.</Text>
+          <Text style={styles.subText}>NammaVandi team will contact you shortly to confirm your move schedule.</Text>
           <TouchableOpacity style={styles.btn} onPress={() => router.replace('/(tabs)/bookings')}>
             <Text style={styles.btnText}>View My Bookings</Text>
           </TouchableOpacity>

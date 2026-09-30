@@ -92,11 +92,11 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-slate-300">
                 <Mail className="w-4 h-4 text-orange-400 flex-shrink-0" />
-                <span>support@nammamove.in</span>
+                <span>support@NammaVandi.in</span>
               </li>
               <li className="flex items-start gap-3 text-slate-300">
                 <MapPin className="w-4 h-4 text-orange-400 flex-shrink-0 mt-1" />
-                <span>NammaMove Logistics Hub, Anna Salai, Chennai, Tamil Nadu - 600017</span>
+                <span>NammaVandi Logistics Hub, Anna Salai, Chennai, Tamil Nadu - 600017</span>
               </li>
               <li className="flex items-center gap-3 text-xs text-slate-500 pt-2">
                 <Clock className="w-3.5 h-3.5 text-slate-400" />
@@ -108,7 +108,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-slate-800/80 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© {new Date().getFullYear()} NammaMove Logistics Technologies. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} NammaVandi Logistics Technologies. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link href="/about" className="hover:text-slate-300">About Us</Link>
             <Link href="/contact" className="hover:text-slate-300">Support</Link>

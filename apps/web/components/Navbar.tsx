@@ -13,7 +13,7 @@ export function Navbar() {
   
   // Admin Login Modal State
   const [adminModalOpen, setAdminModalOpen] = useState(false);
-  const [adminEmail, setAdminEmail] = useState('gokulseenuvasan31@gmail.com');
+  const [adminEmail, setAdminEmail] = useState('bookingnammavandi@gmail.com');
   const [adminPassword, setAdminPassword] = useState('');
   const [adminError, setAdminError] = useState<string | null>(null);
   const [isVerifyingAdmin, setIsVerifyingAdmin] = useState(false);
@@ -50,8 +50,8 @@ export function Navbar() {
       }
 
       if (typeof window !== 'undefined') {
-        localStorage.setItem('nammamove_admin_logged_in', 'true');
-        localStorage.setItem('nammamove_admin_email', cleanEmail);
+        localStorage.setItem('NammaVandi_admin_logged_in', 'true');
+        localStorage.setItem('NammaVandi_admin_email', cleanEmail);
       }
 
       setAdminModalOpen(false);
@@ -267,7 +267,7 @@ export function Navbar() {
                   required
                   value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
-                  placeholder="gokulseenuvasan31@gmail.com"
+                  placeholder="bookingnammavandi@gmail.com"
                   className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none"
                 />
               </div>

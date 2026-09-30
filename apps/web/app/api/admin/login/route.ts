@@ -23,8 +23,8 @@ export async function POST(req: NextRequest) {
       .eq('email', cleanEmail)
       .maybeSingle();
 
-    // 2. Check if this is the designated super admin (gokulseenuvasan31@gmail.com)
-    const isInitialAdmin = cleanEmail === 'gokulseenuvasan31@gmail.com';
+    // 2. Check if this is the designated super admin (bookingnammavandi@gmail.com)
+    const isInitialAdmin = cleanEmail === 'bookingnammavandi@gmail.com';
 
     if (!profile && !isInitialAdmin) {
       return NextResponse.json(
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         await adminSupabase.from('profiles').upsert([
           {
             auth_user_id: authData.user.id,
-            full_name: 'Gokul Seenuvasan',
+            full_name: 'Namma Vandi',
             email: cleanEmail,
             phone: '+919876543210',
             role: 'admin',
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       // Ensure profile is saved in public.profiles
       await adminSupabase.from('profiles').upsert([
         {
-          full_name: 'Gokul Seenuvasan',
+          full_name: 'Namma Vandi',
           email: cleanEmail,
           phone: '+919876543210',
           role: 'admin',
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
           id: profile?.id || '00000000-0000-0000-0000-000000000001',
           email: cleanEmail,
           user_metadata: {
-            full_name: 'Gokul Seenuvasan',
+            full_name: 'Namma Vandi',
             role: 'admin',
           },
         },

@@ -8,7 +8,7 @@ export default function ServicesOverviewPage() {
       
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <h1 className="text-4xl sm:text-5xl font-black text-white">
-          NammaMove Logistics & Relocation Services
+          NammaVandi Logistics & Relocation Services
         </h1>
         <p className="text-slate-300 text-base leading-relaxed">
           Comprehensive packing, moving, vehicle transportation, and commercial relocation across Tamil Nadu and South India.

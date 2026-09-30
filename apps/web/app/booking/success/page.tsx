@@ -55,7 +55,7 @@ function BookingSuccessContent() {
             Thank You, {customerName}!
           </h1>
           <p className="text-slate-300 text-sm max-w-md mx-auto leading-relaxed">
-            Your relocation request has been registered in the NammaMove system. Our dispatch team will review and contact you shortly.
+            Your relocation request has been registered in the NammaVandi system. Our dispatch team will review and contact you shortly.
           </p>
         </div>
 
@@ -107,7 +107,7 @@ function BookingSuccessContent() {
 
           <a
             href={`https://wa.me/919876543210?text=${encodeURIComponent(
-              `Hi NammaMove, I just created booking ${bookingNumber}. Please assist with my move.`
+              `Hi NammaVandi, I just created booking ${bookingNumber}. Please assist with my move.`
             )}`}
             target="_blank"
             rel="noopener noreferrer"

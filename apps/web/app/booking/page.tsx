@@ -660,7 +660,7 @@ function BookingWizardContent() {
                     type="text"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    placeholder="Gokul Seenuvasan"
+                    placeholder="Namma Vandi"
                     className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-white outline-none"
                   />
                 </div>
