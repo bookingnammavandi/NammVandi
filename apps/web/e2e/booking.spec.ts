@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('NammaMove End-to-End User Flow', () => {
+test.describe('NammaVandi End-to-End User Flow', () => {
   test('should load home page and navigate to booking wizard', async ({ page }) => {
     await page.goto('/');
 

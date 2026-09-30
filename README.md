@@ -1,6 +1,6 @@
-# NammaMove — End-to-End Logistics & Packers / Movers Platform
+# NammaVandi — End-to-End Logistics & Packers / Movers Platform
 
-NammaMove is a production-ready, full-stack logistics and packers & movers platform designed for South India (covering **Chennai, Bengaluru, Coimbatore, Madurai, Trichy, Salem, Pondicherry, Hyderabad, Kochi**).
+NammaVandi is a production-ready, full-stack logistics and packers & movers platform designed for South India (covering **Chennai, Bengaluru, Coimbatore, Madurai, Trichy, Salem, Pondicherry, Hyderabad, Kochi**).
 
 Supports:
 1. **Customer Web Application** (Next.js 14/15 App Router, TypeScript, Tailwind CSS, Zod, React Hook Form)
@@ -108,7 +108,7 @@ To connect a new Supabase project:
    - `002_indexes.sql` (Creates indexes)
    - `003_rls.sql` (Enforces Row Level Security)
    - `004_functions.sql` (Creates auto `NM-YYYYMMDD-XXXX` booking number generation function and triggers)
-4. Execute `supabase/seed.sql` to populate sample vehicles, drivers, and initial admin profile (`gokulseenuvasan31@gmail.com`).
+4. Execute `supabase/seed.sql` to populate sample vehicles, drivers, and initial admin profile (`bookingnammavandi@gmail.com`).
 5. Copy your project's `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` into your `.env` file.
 
 ---
@@ -120,7 +120,7 @@ To connect a new Supabase project:
 1. Connect your GitHub repository to Vercel.
 2. Set Root Directory to `apps/web`.
 3. Add Environment Variables from `.env.example`.
-4. Point your domain DNS (`nammamove.in`) CNAME / A records to Vercel.
+4. Point your domain DNS (`NammaVandi.in`) CNAME / A records to Vercel.
 
 ### Mobile App Build (EAS Build)
 

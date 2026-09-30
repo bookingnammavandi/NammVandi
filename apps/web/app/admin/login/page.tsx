@@ -8,7 +8,7 @@ import { Shield, Lock, Mail, AlertCircle, CheckCircle2, ArrowRight } from 'lucid
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('gokulseenuvasan31@gmail.com');
+  const [email, setEmail] = useState('bookingnammavandi@gmail.com');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,8 +39,8 @@ export default function AdminLoginPage() {
       }
 
       if (typeof window !== 'undefined') {
-        localStorage.setItem('nammamove_admin_logged_in', 'true');
-        localStorage.setItem('nammamove_admin_email', cleanEmail);
+        localStorage.setItem('NammaVandi_admin_logged_in', 'true');
+        localStorage.setItem('NammaVandi_admin_email', cleanEmail);
       }
 
       router.push('/admin');
@@ -63,7 +63,7 @@ export default function AdminLoginPage() {
           <div className="w-14 h-14 rounded-2xl brand-gradient-bg text-white flex items-center justify-center mx-auto shadow-glow">
             <Shield className="w-7 h-7" />
           </div>
-          <h1 className="text-2xl font-black text-white">NammaMove Admin Login</h1>
+          <h1 className="text-2xl font-black text-white">NammaVandi Admin Login</h1>
           <p className="text-xs text-slate-400">Enter your administrator email & password to access control center</p>
         </div>
 
@@ -85,7 +85,7 @@ export default function AdminLoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="gokulseenuvasan31@gmail.com"
+              placeholder="admin@gmail.com"
               className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-white outline-none"
             />
           </div>

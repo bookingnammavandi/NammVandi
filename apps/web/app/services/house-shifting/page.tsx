@@ -28,7 +28,7 @@ export default function HouseShiftingPage() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-lg font-bold text-white">Why NammaMove for Home Shift</h3>
+            <h3 className="text-lg font-bold text-white">Why NammaVandi for Home Shift</h3>
             <ul className="space-y-2 text-xs text-slate-300">
               <li className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Background verified moving crew</li>
               <li className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Zero hidden pricing policy</li>

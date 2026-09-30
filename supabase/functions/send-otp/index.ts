@@ -42,7 +42,7 @@ serve(async (req) => {
         const body = new URLSearchParams({
           To: phone,
           From: twilioPhone,
-          Body: `Your NammaMove OTP code is ${generatedOtp}. Valid for 10 minutes. Do not share it with anyone.`,
+          Body: `Your NammaVandi OTP code is ${generatedOtp}. Valid for 10 minutes. Do not share it with anyone.`,
         });
 
         const res = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`, {

@@ -9,13 +9,13 @@ export default function AboutPage() {
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <span className="text-xs uppercase font-extrabold tracking-widest text-orange-400 bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">
-          About NammaMove
+          About NammaVandi
         </span>
         <h1 className="text-4xl sm:text-5xl font-black text-white">
           Who We Are & How We Relocate
         </h1>
         <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-          NammaMove is a modern logistics and relocation technology platform built specifically for homes, offices, two-wheelers, and automobiles across South India.
+          NammaVandi is a modern logistics and relocation technology platform built specifically for homes, offices, two-wheelers, and automobiles across South India.
         </p>
       </div>
 
@@ -42,9 +42,9 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Why Choose NammaMove */}
+      {/* Why Choose NammaVandi */}
       <div className="glass-card p-10 rounded-3xl border border-slate-800 space-y-8">
-        <h2 className="text-2xl font-extrabold text-white text-center">Why Choose NammaMove</h2>
+        <h2 className="text-2xl font-extrabold text-white text-center">Why Choose NammaVandi</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-slate-300">
           <div className="space-y-2">
             <h4 className="font-bold text-white text-sm flex items-center gap-2">

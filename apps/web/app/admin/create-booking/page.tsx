@@ -47,7 +47,7 @@ export default function AdminCreateBookingPage() {
         booking_number: generatedBookingNum,
         customer_name: customerName || 'Walk-in Customer',
         customer_phone: customerPhone || '+919876500000',
-        customer_email: customerEmail || 'customer@nammamove.in',
+        customer_email: customerEmail || 'customer@NammaVandi.in',
         pickup_address_snapshot: { address_line: pickupAddressLine, city: pickupCity, state: 'Tamil Nadu', pincode: '600001', floor: pickupFloor },
         drop_address_snapshot: { address_line: dropAddressLine, city: dropCity, state: 'Tamil Nadu', pincode: '641001', floor: dropFloor },
         pickup_date: pickupDate,

@@ -68,6 +68,6 @@ export function calculateEstimatedPrice(input: EstimatePriceInput): PriceBreakdo
     floorCharge,
     packingCharge,
     totalEstimatedPrice,
-    disclaimer: 'Estimated price. Final price will be confirmed by NammaMove operational team.',
+    disclaimer: 'Estimated price. Final price will be confirmed by NammaVandi operational team.',
   };
 }

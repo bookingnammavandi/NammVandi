@@ -29,7 +29,7 @@ export default function ContactPage() {
       await supabase.from('contact_messages').insert([
         { name, email, phone, subject, message, status: 'unread' },
       ]);
-      setStatusMsg({ type: 'success', text: 'Thank you! Your message has been sent to NammaMove support team.' });
+      setStatusMsg({ type: 'success', text: 'Thank you! Your message has been sent to NammaVandi support team.' });
       setName('');
       setEmail('');
       setPhone('');
@@ -44,7 +44,7 @@ export default function ContactPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <h1 className="text-4xl font-black text-white">Contact NammaMove</h1>
+        <h1 className="text-4xl font-black text-white">Contact NammaVandi</h1>
         <p className="text-slate-300 text-sm">Have questions about your move or need a custom enterprise quote? Get in touch with us.</p>
       </div>
 
@@ -67,7 +67,7 @@ export default function ContactPage() {
               <Mail className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
               <div>
                 <strong className="block text-white">Email Address</strong>
-                <span>support@nammamove.in</span>
+                <span>support@NammaVandi.in</span>
               </div>
             </li>
 
@@ -75,7 +75,7 @@ export default function ContactPage() {
               <MapPin className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
               <div>
                 <strong className="block text-white">Logistics Hub Address</strong>
-                <span>NammaMove Logistics Hub, Anna Salai, T. Nagar, Chennai, Tamil Nadu - 600017</span>
+                <span>NammaVandi Logistics Hub, Anna Salai, T. Nagar, Chennai, Tamil Nadu - 600017</span>
               </div>
             </li>
 

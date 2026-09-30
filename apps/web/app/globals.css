@@ -4,10 +4,11 @@
 
 @layer base {
   :root {
-    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-sans: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   }
   body {
-    @apply bg-slate-900 text-slate-100 antialiased font-sans selection:bg-orange-500 selection:text-white min-h-screen flex flex-col;
+    font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+    @apply bg-slate-900 text-slate-100 antialiased selection:bg-orange-500 selection:text-white min-h-screen flex flex-col;
   }
 }
 

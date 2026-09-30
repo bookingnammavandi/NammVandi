@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "npx tsx --test __tests__/*.test.ts"
+    "test": "npx tsx --import ./__tests__/setup.ts --test __tests__/*.test.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -21,8 +21,8 @@
     "framer-motion": "^11.11.9",
     "lucide-react": "^0.453.0",
     "next": "^14.2.15",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-hook-form": "^7.53.0",
     "tailwind-merge": "^2.5.4",
     "zod": "^3.23.8"
