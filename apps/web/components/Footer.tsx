@@ -69,7 +69,7 @@ export function Footer() {
               Service Hubs
             </h4>
             <ul className="grid grid-cols-2 gap-2 text-sm">
-              <li className="hover:text-slate-200">Chennai</li>
+              <li className="hover:text-slate-600">Chennai</li>
               <li className="hover:text-slate-200">Coimbatore</li>
               <li className="hover:text-slate-200">Bengaluru</li>
               <li className="hover:text-slate-200">Madurai</li>
