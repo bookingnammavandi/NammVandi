@@ -914,19 +914,42 @@ import {
 import { VehicleCard } from '@/components/VehicleCard';
 import { BookingProgress } from '@/components/BookingProgress';
 import { PriceEstimatorWidget } from '@/components/PriceEstimatorWidget';
+import { TimePicker } from '@/components/TimePicker';
 import { LocationFields, FieldError, normFloor } from '@/components/LocationFields';
 import { MoveTypeChips } from '@/components/MoveTypeChips';
 import { suggestMoveType, MoveType } from '@/lib/moveType';
 import { calculateEstimatedPrice } from '@/lib/pricing';
 import { sendPhoneOtp, verifyPhoneOtp } from '@/lib/otp-service';
+import { CustomerVerifyModal, loadVerifiedCustomer, VerifiedCustomer, clearVerifiedCustomer } from '@/components/CustomerVerifyModal';
 import { createClient } from '@/lib/supabase/client';
 import {
   Truck, Calendar, Home, Package, Boxes, User, ShieldCheck, ArrowRight, ArrowLeft,
   CheckCircle2, AlertCircle, Sparkles, Lock, Minus, Plus, Check
 } from 'lucide-react';
 
-const STEP_TITLES = ['Move Route', 'Date & Time', 'Property', 'Vehicle', 'Packing', 'Items', 'Customer', 'Verify Phone', 'Summary'];
+// const STEP_TITLES = ['Move Route', 'Date & Time', 'Property', 'Vehicle', 'Packing', 'Items', 'Customer', 'Verify Phone', 'Summary'];
+const STEP_TITLES: Record<number, string> = {
+  1: 'Locations',
+  2: 'Date & Time',
+  3: 'Property',
+  4: 'Vehicle',
+  5: 'Packing',
+  6: 'Items',
+  9: 'Summary',
+};
 
+// Steps shown in the stepper. Internal step numbers stay the same.
+// To bring a step back, uncomment its line.
+const FLOW: number[] = [
+  1, // Locations
+  // 2, // Date & Time (now collected in Quick Booking)
+  3, // Property
+  // 4, // Vehicle (auto-suggested from property type)
+  5, // Packing
+  6, // Items
+  // 7, 8 -> Customer + Verify Phone now live in CustomerVerifyModal
+  9, // Summary
+];
 const VEHICLE_OPTIONS: Array<{ type: VehicleType; title: string; description: string; capacity: string; recommendedFor: string }> = [
   { type: 'Eicher Tempo', title: 'Eicher Tempo', description: 'Closed body truck ideal for full 2 BHK to 3 BHK house relocation.', capacity: '3,500 kg', recommendedFor: '2 BHK / 3 BHK Relocation' },
   { type: 'Mini Truck', title: 'Mini Truck (Tata Ace)', description: 'Compact truck for quick city movements, single room luggage & 1 BHK.', capacity: '850 kg', recommendedFor: '1 BHK / Local Quick Shift' },
@@ -1004,6 +1027,34 @@ const hourLabel = (h: number) => `${h % 12 || 12} ${h < 12 ? 'AM' : 'PM'}`;
 const formatTime = (h: number, m: number) =>
   `${String(h % 12 || 12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`;
 
+const parseInitialTime = (t: string): { hour: number | null; minute: number } => {
+  if (!t) return { hour: null, minute: 0 };
+  const match24 = t.trim().match(/^(\d{1,2}):(\d{2})$/);
+  if (match24) {
+    const h = parseInt(match24[1], 10);
+    const m = parseInt(match24[2], 10);
+    if (h >= 0 && h < 24) {
+      const roundedM = [0, 15, 30, 45].reduce((prev, curr) =>
+        Math.abs(curr - m) < Math.abs(prev - m) ? curr : prev
+      );
+      return { hour: h, minute: roundedM };
+    }
+  }
+  const match12 = t.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (match12) {
+    let h = parseInt(match12[1], 10);
+    const m = parseInt(match12[2], 10);
+    const isPM = match12[3].toUpperCase() === 'PM';
+    if (isPM && h < 12) h += 12;
+    if (!isPM && h === 12) h = 0;
+    const roundedM = [0, 15, 30, 45].reduce((prev, curr) =>
+      Math.abs(curr - m) < Math.abs(prev - m) ? curr : prev
+    );
+    return { hour: h, minute: roundedM };
+  }
+  return { hour: null, minute: 0 };
+};
+
 const SUGGESTED_VEHICLE: Record<PropertyType, VehicleType> = {
   '1 BHK': 'Pickup Truck', '2 BHK': 'Eicher Tempo', '3 BHK': 'Eicher Tempo', '4 BHK': 'Large Truck',
   '5+ BHK': 'Large Truck', Office: 'Large Truck', Shop: 'Pickup Truck', Other: 'Eicher Tempo',
@@ -1039,6 +1090,8 @@ function BookingWizardContent() {
   const initialDropCity = searchParams?.get('dropCity') || '';
   const paramVehicle = searchParams?.get('vehicle') as VehicleType | null;
   const initialDate = searchParams?.get('date') || localDate(1);
+  const paramTime = searchParams?.get('time') || searchParams?.get('pickupTime') || '';
+  const initialTime = parseInitialTime(paramTime);
 
   const [pickupAddress, setPickupAddress] = useState<AddressSnapshot>(emptyAddress(initialPickupCity));
   const [dropAddress, setDropAddress] = useState<AddressSnapshot>(emptyAddress(initialDropCity));
@@ -1051,8 +1104,8 @@ function BookingWizardContent() {
 
   const [pickupDate, setPickupDate] = useState(initialDate);
   // const [pickupTime, setPickupTime] = useState('');
-  const [pickupHour, setPickupHour] = useState<number | null>(null);
-  const [pickupMinute, setPickupMinute] = useState(0);
+  const [pickupHour, setPickupHour] = useState<number | null>(initialTime.hour);
+  const [pickupMinute, setPickupMinute] = useState(initialTime.minute);
   const pickupTime = pickupHour === null ? '' : formatTime(pickupHour, pickupMinute); // same "06:00 PM" format as before
   const [propertyType, setPropertyType] = useState<PropertyType>('2 BHK');
   const [officeWorkstations, setOfficeWorkstations] = useState<number>(15);
@@ -1068,14 +1121,14 @@ const [customName, setCustomName] = useState('');
   const [carMakeModel, setCarMakeModel] = useState('');
   const [carType, setCarType] = useState<'Hatchback' | 'Sedan' | 'SUV' | 'Luxury'>('SUV');
 
-  const [customerName, setCustomerName] = useState('');
-  const [customerPhone, setCustomerPhone] = useState('');
-  const [customerEmail, setCustomerEmail] = useState('');
-  const [alternatePhone, setAlternatePhone] = useState('');
-  const [specialRequirements, setSpecialRequirements] = useState('');
+  // const [customerName, setCustomerName] = useState('');
+  // const [customerPhone, setCustomerPhone] = useState('');
+  // const [customerEmail, setCustomerEmail] = useState('');
+  // const [alternatePhone, setAlternatePhone] = useState('');
+  // const [specialRequirements, setSpecialRequirements] = useState('');
 
   const [otpCode, setOtpCode] = useState('');
-  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  // const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [cooldown, setCooldown] = useState(0);
   const [mockOtpMsg, setMockOtpMsg] = useState<string | null>(null);
 
@@ -1085,6 +1138,24 @@ const [customName, setCustomName] = useState('');
       return () => clearTimeout(t);
     }
   }, [cooldown]);
+
+  
+
+    const [specialRequirements, setSpecialRequirements] = useState('');
+
+  // Customer comes from the verified modal (sessionStorage), not from a stepper step
+  const [customer, setCustomer] = useState<VerifiedCustomer | null>(null);
+  const [verifyChecked, setVerifyChecked] = useState(false);
+  useEffect(() => {
+    setCustomer(loadVerifiedCustomer());
+    setVerifyChecked(true);
+  }, []);
+
+  const customerName = customer?.name ?? '';
+  const customerPhone = customer?.phone ?? '';
+  const customerEmail = customer?.email ?? '';
+  const alternatePhone = customer?.alternatePhone ?? '';
+  const isOtpVerified = !!customer;
 
   // Time slots: block past slots when the date is today
   // const isToday = pickupDate === localDate(0);
@@ -1183,69 +1254,94 @@ const addCustom = () => {
     return e;
   };
 
-  const handleNext = async () => {
+    const handleNext = () => {
     setFormError(null);
     setErrors({});
 
     if (currentStep === 1) {
       const e = { ...validateAddress(pickupAddress, 'pickup'), ...validateAddress(dropAddress, 'drop') };
       if (Object.keys(e).length) return setErrors(e);
-    } else if (currentStep === 2) {
-      if (!pickupTime) return setFormError('Pick a time slot, or choose another date');
     } else if (currentStep === 3) {
-  if (propertyType === 'Other' && propertyOtherDetails.trim().length < 5)
-    return setErrors({ property: 'Describe your property, e.g. godown, 2 rooms, 1st floor' });
-}else if (currentStep === 5) {
+      if (propertyType === 'Other' && propertyOtherDetails.trim().length < 5)
+        return setErrors({ property: 'Describe your property, e.g. godown, 2 rooms, 1st floor' });
+    } else if (currentStep === 5) {
       if (selectedPacking.length === 0) return setFormError('Please select a packing option');
     } else if (currentStep === 6) {
-  if (itemList.length === 0) return setFormError('Add at least one item to move');    } else if (currentStep === 7) {
-      const e: Record<string, string> = {};
-      if (customerName.trim().length < 2) e.name = 'Enter your full name';
-      if (!/^[6-9]\d{9}$/.test(customerPhone.replace(/\D/g, '').slice(-10))) e.phone = 'Enter a valid 10-digit mobile number';
-      if (customerEmail && !/^\S+@\S+\.\S+$/.test(customerEmail)) e.email = 'Enter a valid email';
-      if (Object.keys(e).length) return setErrors(e);
-      const sent = await handleSendOtp();
-      if (!sent) return;
+      if (itemList.length === 0) return setFormError('Add at least one item to move');
     }
-    goTo(Math.min(currentStep + 1, 9));
+
+    goTo(FLOW[Math.min(FLOW.indexOf(currentStep) + 1, FLOW.length - 1)]);
   };
 
-  const handlePrev = () => {
+    const handlePrev = () => {
     setFormError(null);
     setErrors({});
-    setCurrentStep((p) => Math.max(p - 1, 1));
+    setCurrentStep(FLOW[Math.max(FLOW.indexOf(currentStep) - 1, 0)]);
   };
 
-  const handleSendOtp = async (): Promise<boolean> => {
-    setFormError(null);
-    try {
-      const res = await sendPhoneOtp(customerPhone);
-      if (!res.success) {
-        setFormError(res.message);
-        return false;
-      }
-      setCooldown(res.cooldownSeconds || 30);
-      if (res.mockOtp && process.env.NODE_ENV !== 'production') setMockOtpMsg(`Development OTP Code: ${res.mockOtp}`);
-      return true;
-    } catch (err: any) {
-      setFormError(err.message || 'Failed to send OTP');
-      return false;
-    }
-  };
+//   const handleNext = async () => {
+//     setFormError(null);
+//     setErrors({});
 
-  const handleVerifyOtp = async () => {
-    setFormError(null);
-    if (otpCode.length < 6) return setFormError('Please enter the 6-digit OTP');
-    try {
-      const res = await verifyPhoneOtp(customerPhone, otpCode);
-      if (res.success) {
-        setIsOtpVerified(true);
-        goTo(9);
-      } else setFormError(res.message);
-    } catch (err: any) {
-      setFormError(err.message || 'OTP verification failed');
-    }
-  };
+//     if (currentStep === 1) {
+//       const e = { ...validateAddress(pickupAddress, 'pickup'), ...validateAddress(dropAddress, 'drop') };
+//       if (Object.keys(e).length) return setErrors(e);
+//     } else if (currentStep === 2) {
+//       if (!pickupTime) return setFormError('Pick a time slot, or choose another date');
+//     } else if (currentStep === 3) {
+//   if (propertyType === 'Other' && propertyOtherDetails.trim().length < 5)
+//     return setErrors({ property: 'Describe your property, e.g. godown, 2 rooms, 1st floor' });
+// }else if (currentStep === 5) {
+//       if (selectedPacking.length === 0) return setFormError('Please select a packing option');
+//     } else if (currentStep === 6) {
+//   if (itemList.length === 0) return setFormError('Add at least one item to move');    } else if (currentStep === 7) {
+//       const e: Record<string, string> = {};
+//       if (customerName.trim().length < 2) e.name = 'Enter your full name';
+//       if (!/^[6-9]\d{9}$/.test(customerPhone.replace(/\D/g, '').slice(-10))) e.phone = 'Enter a valid 10-digit mobile number';
+//       if (customerEmail && !/^\S+@\S+\.\S+$/.test(customerEmail)) e.email = 'Enter a valid email';
+//       if (Object.keys(e).length) return setErrors(e);
+//       const sent = await handleSendOtp();
+//       if (!sent) return;
+//     }
+//     goTo(Math.min(currentStep + 1, 9));
+//   };
+
+  // const handlePrev = () => {
+  //   setFormError(null);
+  //   setErrors({});
+  //   setCurrentStep((p) => Math.max(p - 1, 1));
+  // };
+
+  // const handleSendOtp = async (): Promise<boolean> => {
+  //   setFormError(null);
+  //   try {
+  //     const res = await sendPhoneOtp(customerPhone);
+  //     if (!res.success) {
+  //       setFormError(res.message);
+  //       return false;
+  //     }
+  //     setCooldown(res.cooldownSeconds || 30);
+  //     if (res.mockOtp && process.env.NODE_ENV !== 'production') setMockOtpMsg(`Development OTP Code: ${res.mockOtp}`);
+  //     return true;
+  //   } catch (err: any) {
+  //     setFormError(err.message || 'Failed to send OTP');
+  //     return false;
+  //   }
+  // };
+
+  // const handleVerifyOtp = async () => {
+  //   setFormError(null);
+  //   if (otpCode.length < 6) return setFormError('Please enter the 6-digit OTP');
+  //   try {
+  //     const res = await verifyPhoneOtp(customerPhone, otpCode);
+  //     if (res.success) {
+  //       setIsOtpVerified(true);
+  //       goTo(9);
+  //     } else setFormError(res.message);
+  //   } catch (err: any) {
+  //     setFormError(err.message || 'OTP verification failed');
+  //   }
+  // };
 
   const handleConfirmBooking = async () => {
     if (!isOtpVerified) return setFormError('Please verify your phone first');
@@ -1297,6 +1393,8 @@ const addCustom = () => {
         setFormError('Could not save your booking. Please try again or call us.');
         return; // do NOT go to the success page
       }
+      // router.push(`/booking/success?bookingNumber=${bookingNumber}&name=${encodeURIComponent(customerName)}&phone=${encodeURIComponent(normalizedPhone)}`);
+          clearVerifiedCustomer();
       router.push(`/booking/success?bookingNumber=${bookingNumber}&name=${encodeURIComponent(customerName)}&phone=${encodeURIComponent(normalizedPhone)}`);
     } catch (err) {
       console.error('[Booking Error]', err);
@@ -1332,7 +1430,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
   //   setSelectedItems(selectedItems.includes(i) ? selectedItems.filter((x) => x !== i) : [...selectedItems, i]);
 
   const inputCls = (bad?: string) =>
-    `w-full bg-slate-900 border ${bad ? 'border-red-500' : 'border-slate-700'} focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-white outline-none`;
+    `w-full bg-slate-900 border ${bad ? 'border-red-500' : 'border-slate-700'} focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-white outline-none [color-scheme:dark]`;
   const chipCls = (on: boolean) =>
     `cursor-pointer p-4 rounded-xl border text-center transition-all ${on ? 'bg-orange-500/20 border-orange-500 text-white font-bold shadow-glow' : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
     }`;
@@ -1347,12 +1445,21 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
         <p className="text-slate-400 text-sm">Complete your move details to get an instant estimate and confirm your slot.</p>
       </div>
 
-      <BookingProgress
+      {/* <BookingProgress
         currentStep={currentStep}
         totalSteps={9}
         stepTitles={STEP_TITLES}
         onStepClick={(s) => {
           if (s <= maxStep && !(s === 9 && !isOtpVerified)) setCurrentStep(s);
+        }}
+      /> */}
+      <BookingProgress
+        currentStep={FLOW.indexOf(currentStep) + 1}
+        totalSteps={FLOW.length}
+        stepTitles={FLOW.map((id) => STEP_TITLES[id])}
+        onStepClick={(s) => {
+          const id = FLOW[s - 1];
+          if (id !== undefined && FLOW.indexOf(id) <= FLOW.indexOf(maxStep)) setCurrentStep(id);
         }}
       />
 
@@ -1372,7 +1479,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <Truck className="w-5 h-5 text-orange-500" /> Step 1 — Pickup & Drop Locations
               </h2>
-              <MoveTypeChips value={moveType} onChange={(t) => { setMoveType(t); setMoveTypeTouched(true); }} />
+              {/* <MoveTypeChips value={moveType} onChange={(t) => { setMoveType(t); setMoveTypeTouched(true); }} /> */}
               <LocationFields
                 label="Pickup address"
                 value={pickupAddress}
@@ -1500,9 +1607,26 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
       <Calendar className="w-5 h-5 text-orange-500" /> Step 2 — Schedule Date & Pickup Time
     </h2>
 
-    <div>
-      <label className="text-sm font-semibold text-slate-300 mb-1.5 block">Pickup date</label>
-      <input type="date" min={localDate(0)} value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} className={inputCls()} />
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div>
+        <label className="text-sm font-semibold text-slate-300 mb-1.5 block">Pickup date</label>
+        <input type="date" min={localDate(0)} value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} className={inputCls()} />
+      </div>
+
+      <div>
+        <label className="text-sm font-semibold text-slate-300 mb-1.5 block">Pickup time</label>
+        <TimePicker
+          value={pickupTime}
+          position="bottom"
+          onChange={(newTime) => {
+            const parsed = parseInitialTime(newTime);
+            if (parsed.hour !== null) {
+              pickHour(parsed.hour);
+              setPickupMinute(parsed.minute);
+            }
+          }}
+        />
+      </div>
     </div>
 
     <div>
@@ -1868,7 +1992,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
 )}
 
           {/* STEP 7 */}
-          {currentStep === 7 && (
+          {/* {currentStep === 7 && (
             <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <User className="w-5 h-5 text-orange-500" /> Step 7 — Customer Details
@@ -1903,10 +2027,10 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
           {/* STEP 8 */}
-          {currentStep === 8 && (
+          {/* {currentStep === 8 && (
             <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
               <div className="border-b border-slate-800 pb-4">
                 <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -1940,7 +2064,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
                 </button>
               </div>
             </div>
-          )}
+          )} */}
 
           {/* STEP 9 */}
           {currentStep === 9 && (
@@ -1972,9 +2096,12 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-xs">
-                <div><span className="text-slate-500 block">Date <EditBtn step={2} /></span><strong className="text-white text-sm">{pickupDate}</strong></div>
+                {/* <div><span className="text-slate-500 block">Date <EditBtn step={2} /></span><strong className="text-white text-sm">{pickupDate}</strong></div>
                 <div><span className="text-slate-500 block">Time</span><strong className="text-white text-sm">{pickupTime}</strong></div>
-                <div><span className="text-slate-500 block">Vehicle <EditBtn step={4} /></span><strong className="text-white text-sm">{vehicleType}</strong></div>
+                <div><span className="text-slate-500 block">Vehicle <EditBtn step={4} /></span><strong className="text-white text-sm">{vehicleType}</strong></div> */}
+                                <div><span className="text-slate-500 block">Date</span><strong className="text-white text-sm">{pickupDate}</strong></div>
+                <div><span className="text-slate-500 block">Time</span><strong className="text-white text-sm">{pickupTime}</strong></div>
+                <div><span className="text-slate-500 block">Vehicle</span><strong className="text-white text-sm">{vehicleType}</strong></div>
                 <div><span className="text-slate-500 block">Property <EditBtn step={3} /></span><strong className="text-white text-sm">{propertyType}</strong></div>
               </div>
 
@@ -2014,6 +2141,15 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
     </div>
   ))}
 </div>
+              <div>
+                <label className="text-xs text-slate-400 mb-1 block">Special notes / fragile items (optional)</label>
+                <input
+                  value={specialRequirements}
+                  onChange={(e) => setSpecialRequirements(e.target.value)}
+                  placeholder="e.g. Glass table needs extra wrapping"
+                  className={inputCls()}
+                />
+              </div>
 
               <p className="text-xs text-slate-400 flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5" /> No payment now. Pay after service. Price includes GST.
@@ -2027,7 +2163,8 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
             </div>
           )}
 
-          {currentStep < 8 && (
+          {/* {currentStep < 8 && ( */}
+                    {currentStep !== 9 && (
             <div className="flex items-center justify-between pt-4">
               <button type="button" onClick={handlePrev} disabled={currentStep === 1}
                 className="px-5 py-2.5 rounded-xl glass-card text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 disabled:opacity-30 flex items-center gap-2">
@@ -2045,9 +2182,15 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
           {currentStep < 5 && (
             <p className="text-xs text-slate-400">Starting estimate. It updates as you choose vehicle and packing.</p>
           )}
-          <PriceEstimatorWidget breakdown={priceBreakdown} pickupCity={pickupAddress.city} dropCity={dropAddress.city} />
+           <PriceEstimatorWidget breakdown={priceBreakdown} pickupCity={pickupAddress.city} dropCity={dropAddress.city} />
         </div>
       </div>
+
+      <CustomerVerifyModal
+        open={verifyChecked && !customer}
+        dismissible={false}
+        onVerified={setCustomer}
+      />
     </div>
   );
 }

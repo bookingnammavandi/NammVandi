@@ -529,6 +529,8 @@ import {
   PhoneCall,
   Sparkles,
 } from 'lucide-react';
+import { TimePicker } from '@/components/TimePicker';
+import { clearVerifiedCustomer, CustomerVerifyModal } from '@/components/CustomerVerifyModal';
 
 /* -------------------------------------------------------------------------- */
 /*  Quick Booking data                                                         */
@@ -554,7 +556,7 @@ const toLocalDate = (d: Date) =>
   new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0];
 
 const fieldClass =
-  'w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-white outline-none';
+  'w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-white outline-none [color-scheme:dark]';
 const labelClass = 'text-xs font-semibold text-slate-400 mb-1.5 flex items-center gap-1.5';
 
 function SelectField({
@@ -641,6 +643,9 @@ export default function HomePage() {
   const [pickupDate, setPickupDate] = useState(
     toLocalDate(new Date(Date.now() + 86400000))
   );
+  // const [pickupTime, setPickupTime] = useState('09:00 AM');
+    const [pickupTime, setPickupTime] = useState('09:00 AM');
+  const [showVerify, setShowVerify] = useState(false);
 
   // Inner city: drop = pickup city. Outer city: drop is a different city.
   const finalDropCity = scope === 'inner' ? pickupCity : dropCity;
@@ -659,21 +664,48 @@ export default function HomePage() {
       ? 'interstate'
       : 'intercity';
 
-  const handleQuickBook = (e: React.FormEvent) => {
-    e.preventDefault();
+  // const handleQuickBook = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   const params = new URLSearchParams({
+  //     pickupState: getState(pickupCity),
+  //     pickupCity,
+  //     dropState: getState(finalDropCity),
+  //     dropCity: finalDropCity,
+  //     date: pickupDate,
+  //     time: pickupTime,
+  //     moveType,
+  //   });
+  //   router.push(`/booking?${params.toString()}`);
+  // };
+
+    // Runs AFTER details + OTP are verified in the modal
+  const goToBooking = () => {
     const params = new URLSearchParams({
       pickupState: getState(pickupCity),
       pickupCity,
       dropState: getState(finalDropCity),
       dropCity: finalDropCity,
       date: pickupDate,
+      time: pickupTime,
       moveType,
     });
     router.push(`/booking?${params.toString()}`);
   };
 
+  // Runs when "Continue Booking" is clicked: open the modal, don't navigate yet
+  const handleQuickBook = (e: React.FormEvent) => {
+    e.preventDefault();
+    clearVerifiedCustomer(); // every new Quick Booking asks details + OTP again
+    setShowVerify(true);
+  };
+
   return (
     <div className="space-y-24 pb-20">
+      <CustomerVerifyModal
+        open={showVerify}
+        onClose={() => setShowVerify(false)}
+        onVerified={goToBooking}
+      />
       
       {/* HERO SECTION */}
       <section className="relative pt-12 lg:pt-20 pb-16 overflow-hidden">
@@ -787,20 +819,33 @@ export default function HomePage() {
                     </div>
                   )}
 
-                  {/* Pick a date */}
-                  <div>
-                    <label htmlFor="pickupDate" className={labelClass}>
-                      <Calendar className="w-3.5 h-3.5 text-orange-400" /> Pick a date
-                    </label>
-                    <input
-                      id="pickupDate"
-                      type="date"
-                      min={today}
-                      value={pickupDate}
-                      required
-                      onChange={(e) => setPickupDate(e.target.value)}
-                      className={fieldClass}
-                    />
+                  {/* Pick date & time */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label htmlFor="pickupDate" className={labelClass}>
+                        <Calendar className="w-3.5 h-3.5 text-orange-400" /> Pickup date
+                      </label>
+                      <input
+                        id="pickupDate"
+                        type="date"
+                        min={today}
+                        value={pickupDate}
+                        required
+                        onChange={(e) => setPickupDate(e.target.value)}
+                        className={fieldClass}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="pickupTime" className={labelClass}>
+                        <Clock className="w-3.5 h-3.5 text-orange-400" /> Pickup time
+                      </label>
+                      <TimePicker
+                        id="pickupTime"
+                        value={pickupTime}
+                        onChange={setPickupTime}
+                        position="top"
+                      />
+                    </div>
                   </div>
 
                   <button
