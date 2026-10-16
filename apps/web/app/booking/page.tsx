@@ -924,8 +924,12 @@ import { CustomerVerifyModal, loadVerifiedCustomer, VerifiedCustomer, clearVerif
 import { createClient } from '@/lib/supabase/client';
 import {
   Truck, Calendar, Home, Package, Boxes, User, ShieldCheck, ArrowRight, ArrowLeft,
-  CheckCircle2, AlertCircle, Sparkles, Lock, Minus, Plus, Check
+  CheckCircle2, AlertCircle, Sparkles, Lock, Minus, Plus, Check,
+  Armchair, Bed, Sofa, DoorClosed, Tv, Refrigerator, WashingMachine, 
+  Flame, Fan, Bike, Car, Laptop, Snowflake, X,LucideIcon,
+  Clock
 } from 'lucide-react';
+
 
 // const STEP_TITLES = ['Move Route', 'Date & Time', 'Property', 'Vehicle', 'Packing', 'Items', 'Customer', 'Verify Phone', 'Summary'];
 const STEP_TITLES: Record<number, string> = {
@@ -937,12 +941,34 @@ const STEP_TITLES: Record<number, string> = {
   6: 'Items',
   9: 'Summary',
 };
+type ItemPick = { c: ItemType; n: string };
 
+const ITEM_ICON: Record<string, LucideIcon> = {
+  Chair: Armchair, Bed: Bed, Sofa: Sofa, 'Cupboard (Almirah)': DoorClosed, Wardrobe: DoorClosed,
+  TV: Tv, Refrigerator: Refrigerator, 'Washing machine': WashingMachine,
+  'Cartons / boxes': Package, 'Gas stove': Flame, Fan: Fan, Motorbike: Bike, Scooter: Bike,
+  Bicycle: Bike, Car: Car, 'Computer / Laptop': Laptop, AC: Snowflake,
+};
+const POPULAR: ItemPick[] = [
+  { c: 'Household Items', n: 'Chair' },
+  { c: 'Household Items', n: 'Bed' },
+  { c: 'Furniture', n: 'Sofa' },
+  { c: 'Household Items', n: 'Cupboard (Almirah)' },
+  { c: 'Electronics', n: 'TV' },
+  { c: 'Appliances', n: 'Refrigerator' },
+  { c: 'Appliances', n: 'Washing machine' },
+  { c: 'Household Items', n: 'Cartons / boxes' },
+];
+const TYPICAL: Partial<Record<PropertyType, Array<[ItemType, string, number]>>> = {
+  '1 BHK': [['Household Items', 'Bed', 1], ['Household Items', 'Chair', 2], ['Electronics', 'TV', 1], ['Appliances', 'Refrigerator', 1], ['Household Items', 'Cartons / boxes', 10]],
+  '2 BHK': [['Household Items', 'Bed', 2], ['Furniture', 'Sofa', 1], ['Household Items', 'Cupboard (Almirah)', 2], ['Electronics', 'TV', 1], ['Appliances', 'Refrigerator', 1], ['Appliances', 'Washing machine', 1], ['Household Items', 'Cartons / boxes', 15]],
+  '3 BHK': [['Household Items', 'Bed', 3], ['Furniture', 'Sofa', 1], ['Household Items', 'Cupboard (Almirah)', 3], ['Electronics', 'TV', 2], ['Appliances', 'Refrigerator', 1], ['Appliances', 'Washing machine', 1], ['Household Items', 'Cartons / boxes', 25]],
+};
 // Steps shown in the stepper. Internal step numbers stay the same.
 // To bring a step back, uncomment its line.
 const FLOW: number[] = [
   1, // Locations
-  // 2, // Date & Time (now collected in Quick Booking)
+  2, // Date & Time (now collected in Quick Booking)
   3, // Property
   // 4, // Vehicle (auto-suggested from property type)
   5, // Packing
@@ -1115,7 +1141,7 @@ function BookingWizardContent() {
   const [propertyOtherDetails, setPropertyOtherDetails] = useState('');
 
 const [itemQty, setItemQty] = useState<Record<string, number>>({});
-const [itemTab, setItemTab] = useState<ItemType>('Household Items');
+const [itemTab, setItemTab] = useState<'Popular' | ItemType>('Popular');
 const [customName, setCustomName] = useState('');
   const [bikeMakeModel, setBikeMakeModel] = useState('');
   const [carMakeModel, setCarMakeModel] = useState('');
@@ -1224,8 +1250,53 @@ const setQty = (c: string, n: string, q: number) =>
 const addCustom = () => {
   const n = customName.trim();
   if (!n) return;
-  setQty(itemTab, n, (itemQty[itemKey(itemTab, n)] || 0) + 1);
+  const c = itemTab === 'Popular' ? 'Other' : itemTab;
+  setQty(c, n, (itemQty[itemKey(c, n)] || 0) + 1);
   setCustomName('');
+};
+
+
+const applyTypical = () => {
+  const list = TYPICAL[propertyType] ?? [];
+  setItemQty((prev) => {
+    const next = { ...prev };
+    list.forEach(([c, n, q]) => { if (!next[itemKey(c, n)]) next[itemKey(c, n)] = q; });
+    return next;
+  });
+};
+
+const tiles: ItemPick[] =
+  itemTab === 'Popular' ? POPULAR : rowsFor(itemTab).map((n) => ({ c: itemTab as ItemType, n }));
+
+const renderTile = ({ c, n }: ItemPick) => {
+  const q = itemQty[itemKey(c, n)] || 0;
+  const Icon = ITEM_ICON[n] ?? Package;
+  return (
+    <div key={`${c}-${n}`} className="relative">
+      <button
+        type="button" onClick={() => setQty(c, n, q + 1)} aria-label={`Add ${n}`}
+        className={`w-full flex flex-col items-center gap-1.5 px-2 py-4 rounded-2xl border text-xs transition-all active:scale-95 ${
+          q > 0 ? 'bg-orange-500/15 border-orange-500 text-white font-semibold' : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500'
+        }`}
+      >
+        <Icon className={`w-7 h-7 ${q > 0 ? 'text-orange-400' : 'text-slate-400'}`} />
+        <span className="text-center leading-tight">{n}</span>
+      </button>
+      {q > 0 && (
+        <>
+          <span className="absolute -top-1.5 -right-1.5 min-w-[22px] h-[22px] px-1 rounded-full bg-orange-500 text-white text-[11px] font-bold flex items-center justify-center pointer-events-none">
+            {q}
+          </span>
+          <button
+            type="button" aria-label={`Remove one ${n}`} onClick={() => setQty(c, n, q - 1)}
+            className="absolute -top-1.5 -left-1.5 w-[22px] h-[22px] rounded-full bg-slate-800 border border-slate-600 text-white flex items-center justify-center hover:border-orange-500"
+          >
+            <Minus className="w-3 h-3" />
+          </button>
+        </>
+      )}
+    </div>
+  );
 };
 
   const priceBreakdown = calculateEstimatedPrice({
@@ -1615,7 +1686,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
 
       <div>
         <label className="text-sm font-semibold text-slate-300 mb-1.5 block">Pickup time</label>
-        <TimePicker
+        {/* <TimePicker
           value={pickupTime}
           position="bottom"
           onChange={(newTime) => {
@@ -1625,14 +1696,19 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
               setPickupMinute(parsed.minute);
             }
           }}
-        />
+        /> */}
+        <div className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm flex items-center gap-2" aria-live="polite">
+      <Clock className="w-4 h-4 text-orange-500" />
+      {pickupTime
+        ? <strong className="text-white">{pickupTime}</strong>
+        : <span className="text-slate-500">Select a time below</span>}
+    </div>
       </div>
     </div>
 
     <div>
       <label className="text-sm font-semibold text-slate-300 mb-1.5 block">Pickup hour</label>
 
-      {/* Period tabs */}
       <div className="grid grid-cols-4 gap-1.5 mb-2" role="tablist">
         {HOUR_GROUPS.map((g, i) => {
           const allPast = Array.from({ length: 6 }, (_, k) => g.start + k).every(hourPast);
@@ -1651,7 +1727,6 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
         })}
       </div>
 
-      {/* Hours for the active tab only */}
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
         {Array.from({ length: 6 }, (_, i) => HOUR_GROUPS[periodTab].start + i).map((h) => (
           <button
@@ -1667,7 +1742,6 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
       {allHoursPast && <p className="text-xs text-amber-400 mt-2">No slots left today. Please pick another date.</p>}
     </div>
 
-    {/* Minutes + summary on one row */}
     {pickupHour !== null && (
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-800 pt-3">
         <span className="text-xs text-slate-400">Minutes <span className="text-slate-600">(optional)</span></span>
@@ -1881,7 +1955,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
             </div>
           )} */}
 
-          {currentStep === 6 && (
+          {/* {currentStep === 6 && (
   <div className="glass-card p-5 rounded-3xl space-y-4">
     <div>
       <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -1890,7 +1964,6 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
       <p className="text-xs text-slate-400 mt-1">Pick a category, then set how many of each item you are moving.</p>
     </div>
 
-    {/* Category tabs with count badges */}
     <div className="flex flex-wrap gap-1.5" role="tablist">
       {ITEM_CATEGORIES.map((c) => (
         <button
@@ -1909,7 +1982,6 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
       ))}
     </div>
 
-    {/* Item rows with quantity */}
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
       {rowsFor(itemTab).map((name) => {
         const q = itemQty[itemKey(itemTab, name)] || 0;
@@ -1944,7 +2016,6 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
       })}
     </div>
 
-    {/* Custom item */}
     <div className="flex gap-2">
       <input
         value={customName} onChange={(e) => setCustomName(e.target.value)}
@@ -1958,7 +2029,6 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
       </button>
     </div>
 
-    {/* Selected summary */}
     <div className="border-t border-slate-800 pt-3 text-xs">
       {totalQty === 0 ? (
         <span className="text-slate-500">No items added yet.</span>
@@ -1989,6 +2059,106 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
       </div>
     )}
   </div>
+)} */}
+{currentStep === 6 && (
+  <div className="glass-card p-5 rounded-3xl space-y-4">
+    <div>
+      <h2 className="text-xl font-bold text-white flex items-center gap-2">
+        <Boxes className="w-5 h-5 text-orange-500" /> Step 6 — What are you moving?
+      </h2>
+      <p className="text-xs text-slate-400 mt-1">Tap an item to add it. Tap again for more. Use − to remove.</p>
+    </div>
+
+    {TYPICAL[propertyType] && (
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-orange-500/10 border border-orange-500/30 rounded-xl px-3 py-2.5">
+        <span className="text-xs text-slate-200 flex items-center gap-1.5">
+          <Sparkles className="w-4 h-4 text-orange-400" /> Moving a {propertyType}? Start with a typical list.
+        </span>
+        <button type="button" onClick={applyTypical}
+          className="px-3 py-1.5 rounded-lg bg-orange-500 text-white text-xs font-bold whitespace-nowrap">
+          Use typical list
+        </button>
+      </div>
+    )}
+
+    {/* Category pills: horizontally scrollable on mobile */}
+    <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1" role="tablist">
+      {(['Popular', ...ITEM_CATEGORIES] as const).map((c) => (
+        <button
+          key={c} type="button" role="tab" aria-selected={itemTab === c} onClick={() => setItemTab(c)}
+          className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-xs transition-all ${
+            itemTab === c ? 'bg-orange-500/20 border-orange-500 text-white font-bold' : 'bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-600'
+          }`}
+        >
+          {c}
+          {c !== 'Popular' && categoryCount(c) > 0 && (
+            <span className="ml-1.5 inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-orange-500 text-white text-[10px] font-bold">
+              {categoryCount(c)}
+            </span>
+          )}
+        </button>
+      ))}
+    </div>
+
+    {/* Big tap tiles */}
+    <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 pt-1">
+      {tiles.map(renderTile)}
+    </div>
+
+    {/* Custom item */}
+    <div className="flex gap-2">
+      <input
+        value={customName} onChange={(e) => setCustomName(e.target.value)}
+        onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addCustom(); } }}
+        placeholder="Not listed? Type an item, e.g. Piano"
+        className={inputCls()}
+      />
+      <button type="button" onClick={addCustom}
+        className="px-4 rounded-xl border border-orange-500 text-orange-400 text-sm font-semibold hover:bg-orange-500/10 whitespace-nowrap">
+        Add
+      </button>
+    </div>
+
+    {/* Selected chips */}
+    <div className="border-t border-slate-800 pt-3">
+      {totalQty === 0 ? (
+        <span className="text-xs text-slate-500">No items added yet.</span>
+      ) : (
+        <>
+          <p className="text-xs font-bold text-orange-400 mb-2">{totalQty} item{totalQty > 1 ? 's' : ''} selected</p>
+          <div className="flex flex-wrap gap-1.5">
+            {itemList.map((i) => (
+              <span key={`${i.category}-${i.name}`} className="inline-flex items-center gap-1.5 bg-slate-800 rounded-lg pl-2.5 pr-1.5 py-1 text-xs text-slate-200">
+                {i.name} ×{i.qty}
+                <button type="button" aria-label={`Remove ${i.name}`} onClick={() => setQty(i.category, i.name, 0)}
+                  className="text-slate-400 hover:text-white">
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </span>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+
+  {selectedItems.includes('Bike') && (
+      <div>
+        <label className="text-xs text-orange-400 font-bold block mb-1">Bike make & model</label>
+        <input value={bikeMakeModel} onChange={(e) => setBikeMakeModel(e.target.value)} placeholder="e.g. Royal Enfield Classic 350" className={inputCls()} />
+      </div>
+    )}
+    {selectedItems.includes('Car') && (
+      <div className="space-y-2">
+        <label className="text-xs text-orange-400 font-bold block">Car details</label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input value={carMakeModel} onChange={(e) => setCarMakeModel(e.target.value)} placeholder="e.g. Hyundai Creta" className={inputCls()} />
+          <select value={carType} onChange={(e) => setCarType(e.target.value as any)} className={inputCls()}>
+            <option>Hatchback</option><option>Sedan</option><option>SUV</option><option>Luxury</option>
+          </select>
+        </div>
+        <p className="text-xs text-slate-400">Car transport is usually a separate vehicle. Our team will confirm it with you.</p>
+      </div>
+    )}  </div>
 )}
 
           {/* STEP 7 */}

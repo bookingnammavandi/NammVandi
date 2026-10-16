@@ -529,7 +529,7 @@ import {
   PhoneCall,
   Sparkles,
 } from 'lucide-react';
-import { TimePicker } from '@/components/TimePicker';
+// import { TimePicker } from '@/components/TimePicker';
 import { clearVerifiedCustomer, CustomerVerifyModal } from '@/components/CustomerVerifyModal';
 
 /* -------------------------------------------------------------------------- */
@@ -644,7 +644,6 @@ export default function HomePage() {
     toLocalDate(new Date(Date.now() + 86400000))
   );
   // const [pickupTime, setPickupTime] = useState('09:00 AM');
-    const [pickupTime, setPickupTime] = useState('09:00 AM');
   const [showVerify, setShowVerify] = useState(false);
 
   // Inner city: drop = pickup city. Outer city: drop is a different city.
@@ -686,7 +685,7 @@ export default function HomePage() {
       dropState: getState(finalDropCity),
       dropCity: finalDropCity,
       date: pickupDate,
-      time: pickupTime,
+      // time: pickupTime,
       moveType,
     });
     router.push(`/booking?${params.toString()}`);
@@ -820,22 +819,22 @@ export default function HomePage() {
                   )}
 
                   {/* Pick date & time */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="pickupDate" className={labelClass}>
-                        <Calendar className="w-3.5 h-3.5 text-orange-400" /> Pickup date
-                      </label>
-                      <input
-                        id="pickupDate"
-                        type="date"
-                        min={today}
-                        value={pickupDate}
-                        required
-                        onChange={(e) => setPickupDate(e.target.value)}
-                        className={fieldClass}
-                      />
-                    </div>
-                    <div>
+                    {/* Pickup date */}
+<div>
+  <label htmlFor="pickupDate" className={labelClass}>
+    <Calendar className="w-3.5 h-3.5 text-orange-400" /> Pickup date
+  </label>
+  <input
+    id="pickupDate"
+    type="date"
+    min={today}
+    value={pickupDate}
+    required
+    onChange={(e) => setPickupDate(e.target.value)}
+    className={fieldClass}
+  />
+</div>
+                    {/* <div>
                       <label htmlFor="pickupTime" className={labelClass}>
                         <Clock className="w-3.5 h-3.5 text-orange-400" /> Pickup time
                       </label>
@@ -845,8 +844,7 @@ export default function HomePage() {
                         onChange={setPickupTime}
                         position="top"
                       />
-                    </div>
-                  </div>
+                    </div> */}
 
                   <button
                     type="submit"
