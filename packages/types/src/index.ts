@@ -88,7 +88,13 @@ export interface AddressSnapshot {
   floor?: string | number | null;
   contact_person?: string | null;
   contact_phone?: string | null;
+  landmark?: string | null;
+  has_lift?: boolean | null;
+  parking_access?: 'easy' | 'narrow' | 'far' | null;
 }
+
+export type ParkingAccess = 'easy' | 'narrow' | 'far';
+export type MoveType = 'within_city' | 'intercity' | 'interstate';
 
 export interface BikeDetails {
   make_model?: string;
@@ -163,6 +169,8 @@ export interface Booking {
 
   created_at: string;
   updated_at: string;
+
+  move_type?: MoveType | null;
 }
 
 export interface Vehicle {

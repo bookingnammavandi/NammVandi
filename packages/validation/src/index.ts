@@ -36,7 +36,13 @@ export const addressSnapshotSchema = z.object({
   floor: z.string().default('0'),
   contact_person: z.string().optional().nullable(),
   contact_phone: z.string().optional().nullable(),
-});
+  landmark: z.string().optional().nullable(),
+    has_lift: z.boolean().optional().nullable(),
+}).superRefine((a, ctx) => {
+    if (a.floor && a.floor !== '0' && typeof a.has_lift !== 'boolean') {
+      ctx.addIssue({ code: 'custom', path: ['has_lift'], message: 'Select if a lift is available' });
+    }
+  });
 
 export const propertyTypeEnum = z.enum([
   '1 BHK',
