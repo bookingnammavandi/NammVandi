@@ -18,6 +18,7 @@ export default function AdminLoginPage() {
     setErrorMsg(null);
     setIsSubmitting(true);
 
+
     try {
       const cleanEmail = email.trim().toLowerCase();
 
@@ -52,24 +53,24 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-      <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-slate-800 max-w-md w-full space-y-6 shadow-2xl relative">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+      <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-slate-200 bg-white max-w-md w-full space-y-6 shadow-xl relative">
         
         {/* Glow */}
-        <div className="w-20 h-20 rounded-full brand-gradient-bg opacity-20 blur-xl absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none" />
+        <div className="w-20 h-20 rounded-full brand-gradient-bg opacity-10 blur-xl absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none" />
 
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="w-14 h-14 rounded-2xl brand-gradient-bg text-white flex items-center justify-center mx-auto shadow-glow">
+          <div className="w-14 h-14 rounded-2xl brand-gradient-bg text-white flex items-center justify-center mx-auto shadow-md">
             <Shield className="w-7 h-7" />
           </div>
-          <h1 className="text-2xl font-black text-white">NammaVandi Admin Login</h1>
-          <p className="text-xs text-slate-400">Enter your administrator email & password to access control center</p>
+          <h1 className="text-2xl font-black text-slate-900">NammaVandi Admin Login</h1>
+          <p className="text-xs text-slate-600">Enter your administrator email & password to access control center</p>
         </div>
 
         {/* Error Banner */}
         {errorMsg && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-xl text-xs flex items-center gap-2 animate-in fade-in">
+          <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl text-xs flex items-center gap-2 animate-in fade-in font-medium">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{errorMsg}</span>
           </div>
@@ -77,8 +78,8 @@ export default function AdminLoginPage() {
 
         <form onSubmit={handleAdminLogin} className="space-y-4">
           <div>
-            <label className="text-xs font-semibold text-slate-300 mb-1.5 block flex items-center gap-1.5">
-              <Mail className="w-3.5 h-3.5 text-orange-400" /> Admin Username / Email *
+            <label className="text-xs font-semibold text-slate-700 mb-1.5 block flex items-center gap-1.5">
+              <Mail className="w-3.5 h-3.5 text-orange-500" /> Admin Username / Email *
             </label>
             <input
               type="email"
@@ -86,13 +87,13 @@ export default function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@gmail.com"
-              className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-white outline-none"
+              className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none focus:ring-1 focus:ring-orange-500 transition-all"
             />
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-300 mb-1.5 block flex items-center gap-1.5">
-              <Lock className="w-3.5 h-3.5 text-blue-400" /> Admin Password *
+            <label className="text-xs font-semibold text-slate-700 mb-1.5 block flex items-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 text-blue-500" /> Admin Password *
             </label>
             <input
               type="password"
@@ -100,14 +101,14 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-white outline-none"
+              className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none focus:ring-1 focus:ring-orange-500 transition-all"
             />
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-glow hover:opacity-95 transition-all flex items-center justify-center gap-2 mt-2"
+            className="w-full py-3.5 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 transition-all flex items-center justify-center gap-2 mt-2"
           >
             {isSubmitting ? (
               <span>Verifying Admin DB...</span>
@@ -120,8 +121,8 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        <div className="text-center pt-2 border-t border-slate-800">
-          <Link href="/" className="text-xs text-slate-500 hover:text-slate-300">
+        <div className="text-center pt-2 border-t border-slate-200">
+          <Link href="/" className="text-xs text-slate-500 hover:text-slate-800">
             ← Back to Public Website
           </Link>
         </div>

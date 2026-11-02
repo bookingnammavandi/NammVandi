@@ -48,45 +48,45 @@ export default function AdminContactEnquiriesPage() {
     <AdminLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-black text-white">Contact Enquiries & Support</h1>
-          <p className="text-xs text-slate-400 mt-1">Inbound support inquiries submitted via public contact form, fetched live from Supabase DB.</p>
+          <h1 className="text-2xl font-black text-slate-900">Contact Enquiries & Support</h1>
+          <p className="text-xs text-slate-500 mt-1">Inbound support inquiries submitted via public contact form, fetched live from Supabase DB.</p>
         </div>
 
         <div className="space-y-4 max-w-4xl">
           {isLoading ? (
-            <div className="py-12 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-orange-400" /> Fetching support enquiries from Supabase DB...
+            <div className="py-12 text-center text-xs text-slate-500 flex items-center justify-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin text-orange-500" /> Fetching support enquiries from Supabase DB...
             </div>
           ) : messages.length === 0 ? (
-            <div className="glass-card p-8 text-center rounded-2xl text-xs text-slate-400">
+            <div className="glass-card p-8 text-center rounded-2xl border border-slate-200 bg-white text-xs text-slate-500 shadow-sm">
               No contact enquiries found in Supabase database.
             </div>
           ) : (
             messages.map((m) => (
-              <div key={m.id} className="glass-card p-6 rounded-2xl border border-slate-800 space-y-3">
+              <div key={m.id} className="glass-card p-6 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center font-bold text-sm">
+                    <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 border border-orange-100 flex items-center justify-center font-bold text-sm">
                       <MessageSquare className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-white">{m.name}</h3>
-                      <span className="text-xs text-slate-400">{m.email} • {m.phone}</span>
+                      <h3 className="text-sm font-bold text-slate-900">{m.name}</h3>
+                      <span className="text-xs text-slate-500">{m.email} • {m.phone}</span>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold capitalize ${
                       m.status === 'unread'
-                        ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                        : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                        ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                        : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                     }`}>
                       {m.status}
                     </span>
                     {m.status === 'unread' && (
                       <button
                         onClick={() => markAsRead(m.id)}
-                        className="text-xs text-slate-400 hover:text-white underline"
+                        className="text-xs text-slate-500 hover:text-slate-900 underline font-medium"
                       >
                         Mark Read
                       </button>
@@ -94,12 +94,12 @@ export default function AdminContactEnquiriesPage() {
                   </div>
                 </div>
 
-                <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-1">
-                  <span className="text-orange-400 font-semibold block">Subject: {m.subject || 'General Enquiry'}</span>
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1">
+                  <span className="text-orange-600 font-semibold block">Subject: {m.subject || 'General Enquiry'}</span>
                   <p className="leading-relaxed">{m.message}</p>
                 </div>
 
-                <div className="text-[10px] text-slate-500 text-right">
+                <div className="text-[10px] text-slate-400 text-right">
                   Received: {m.created_at ? new Date(m.created_at).toLocaleString() : 'Recently'}
                 </div>
               </div>

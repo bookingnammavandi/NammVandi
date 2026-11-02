@@ -779,7 +779,7 @@
 //           {/* STEP 9 — BOOKING SUMMARY & FINAL CONFIRMATION */}
 //           {currentStep === 9 && (
 //             <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
-//               <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+//               <div className="flex items-center justify-between pb-4 border-b border-slate-200">
 //                 <div>
 //                   <h2 className="text-2xl font-black text-white">Booking Summary</h2>
 //                   <span className="text-xs text-slate-400">Review your relocation details before final confirmation</span>
@@ -1276,10 +1276,10 @@ const renderTile = ({ c, n }: ItemPick) => {
       <button
         type="button" onClick={() => setQty(c, n, q + 1)} aria-label={`Add ${n}`}
         className={`w-full flex flex-col items-center gap-1.5 px-2 py-4 rounded-2xl border text-xs transition-all active:scale-95 ${
-          q > 0 ? 'bg-orange-500/15 border-orange-500 text-white font-semibold' : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500'
+          q > 0 ? 'bg-orange-50 border-orange-500 text-orange-600 font-semibold shadow-sm' : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50 shadow-sm'
         }`}
       >
-        <Icon className={`w-7 h-7 ${q > 0 ? 'text-orange-400' : 'text-slate-400'}`} />
+        <Icon className={`w-7 h-7 ${q > 0 ? 'text-orange-500' : 'text-slate-400'}`} />
         <span className="text-center leading-tight">{n}</span>
       </button>
       {q > 0 && (
@@ -1289,7 +1289,7 @@ const renderTile = ({ c, n }: ItemPick) => {
           </span>
           <button
             type="button" aria-label={`Remove one ${n}`} onClick={() => setQty(c, n, q - 1)}
-            className="absolute -top-1.5 -left-1.5 w-[22px] h-[22px] rounded-full bg-slate-800 border border-slate-600 text-white flex items-center justify-center hover:border-orange-500"
+            className="absolute -top-1.5 -left-1.5 w-[22px] h-[22px] rounded-full bg-slate-100 border border-slate-300 text-slate-700 flex items-center justify-center hover:border-orange-500 shadow-sm"
           >
             <Minus className="w-3 h-3" />
           </button>
@@ -1501,19 +1501,19 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
   //   setSelectedItems(selectedItems.includes(i) ? selectedItems.filter((x) => x !== i) : [...selectedItems, i]);
 
   const inputCls = (bad?: string) =>
-    `w-full bg-slate-900 border ${bad ? 'border-red-500' : 'border-slate-700'} focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-white outline-none [color-scheme:dark]`;
+    `w-full bg-white border ${bad ? 'border-red-500' : 'border-slate-200'} focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-xl px-4 py-3 text-sm text-slate-800 outline-none transition-all`;
   const chipCls = (on: boolean) =>
-    `cursor-pointer p-4 rounded-xl border text-center transition-all ${on ? 'bg-orange-500/20 border-orange-500 text-white font-bold shadow-glow' : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+    `cursor-pointer p-4 rounded-xl border text-center transition-all ${on ? 'bg-orange-50 border-orange-500 text-orange-600 font-bold shadow-sm' : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50 shadow-sm'
     }`;
   const EditBtn = ({ step }: { step: number }) => (
-    <button type="button" onClick={() => setCurrentStep(step)} className="text-orange-400 text-xs hover:underline">Edit</button>
+    <button type="button" onClick={() => setCurrentStep(step)} className="text-orange-600 text-xs font-semibold hover:underline">Edit</button>
   );
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-black text-white">Book Your Relocation</h1>
-        <p className="text-slate-400 text-sm">Complete your move details to get an instant estimate and confirm your slot.</p>
+        <h1 className="text-3xl sm:text-4xl font-black text-slate-900">Book Your Relocation</h1>
+        <p className="text-slate-500 text-sm">Complete your move details to get an instant estimate and confirm your slot.</p>
       </div>
 
       {/* <BookingProgress
@@ -1535,7 +1535,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
       />
 
       {formError && (
-        <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-xl flex items-center gap-2 text-xs">
+        <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl flex items-center gap-2 text-xs font-medium">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           <span>{formError}</span>
         </div>
@@ -1547,7 +1547,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
           {/* STEP 1 */}
           {currentStep === 1 && (
             <div className="glass-card p-5 rounded-3xl space-y-4">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <Truck className="w-5 h-5 text-orange-500" /> Step 1 — Pickup & Drop Locations
               </h2>
               {/* <MoveTypeChips value={moveType} onChange={(t) => { setMoveType(t); setMoveTypeTouched(true); }} /> */}
@@ -1570,9 +1570,9 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
                 }}
               />
               {pickupAddress.city && dropAddress.city && (
-                <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-sm text-slate-200">
-                  <strong className="text-white">{pickupAddress.city} to {dropAddress.city}</strong>
-                  <span className="text-slate-400"> · {priceBreakdown.distanceKm} km</span>
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm text-slate-700">
+                  <strong className="text-slate-900">{pickupAddress.city} to {dropAddress.city}</strong>
+                  <span className="text-slate-500"> · {priceBreakdown.distanceKm} km</span>
                 </div>
               )}
             </div>
@@ -1631,7 +1631,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
                       {Array.from({ length: 6 }, (_, i) => g.start + i).map((h) => (
                         <button
                           key={h} type="button" disabled={hourPast(h)} aria-pressed={pickupHour === h} onClick={() => pickHour(h)}
-                          className={`p-2.5 rounded-xl border text-sm text-center transition-all disabled:opacity-30 disabled:cursor-not-allowed ${pickupHour === h ? 'bg-orange-500/20 border-orange-500 text-white font-bold' : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-600'
+                          className={`p-2.5 rounded-xl border text-sm text-center transition-all disabled:opacity-30 disabled:cursor-not-allowed ${pickupHour === h ? 'bg-orange-500 text-white font-bold shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-white'
                             }`}
                         >
                           {hourLabel(h)}
@@ -1654,7 +1654,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
                     {MINUTES.map((m) => (
                       <button
                         key={m} type="button" disabled={slotPast(pickupHour, m)} aria-pressed={pickupMinute === m} onClick={() => setPickupMinute(m)}
-                        className={`p-2.5 rounded-xl border text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed ${pickupMinute === m ? 'bg-orange-500/20 border-orange-500 text-white font-bold' : 'bg-slate-900 border-slate-700 text-slate-300'
+                        className={`p-2.5 rounded-xl border text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed ${pickupMinute === m ? 'bg-orange-500 text-white font-bold shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-white'
                           }`}
                       >
                         :{String(m).padStart(2, '0')}
@@ -1666,7 +1666,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
 
               {pickupTime && (
                 <p className="text-sm text-slate-300 border-t border-slate-800 pt-4" aria-live="polite">
-                  Pickup time: <strong className="text-orange-400">{pickupTime}</strong>
+                  Pickup time: <strong className="text-orange-600">{pickupTime}</strong>
                 </p>
               )}
             </div>
@@ -1674,18 +1674,18 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
 
           {currentStep === 2 && (
   <div className="glass-card p-5 rounded-3xl space-y-4">
-    <h2 className="text-xl font-bold text-white flex items-center gap-2">
+    <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
       <Calendar className="w-5 h-5 text-orange-500" /> Step 2 — Schedule Date & Pickup Time
     </h2>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <div>
-        <label className="text-sm font-semibold text-slate-300 mb-1.5 block">Pickup date</label>
+        <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Pickup date</label>
         <input type="date" min={localDate(0)} value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} className={inputCls()} />
       </div>
 
       <div>
-        <label className="text-sm font-semibold text-slate-300 mb-1.5 block">Pickup time</label>
+        <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Pickup time</label>
         {/* <TimePicker
           value={pickupTime}
           position="bottom"
@@ -1697,17 +1697,17 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
             }
           }}
         /> */}
-        <div className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm flex items-center gap-2" aria-live="polite">
+        <div className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm flex items-center gap-2" aria-live="polite">
       <Clock className="w-4 h-4 text-orange-500" />
       {pickupTime
-        ? <strong className="text-white">{pickupTime}</strong>
+        ? <strong className="text-slate-900">{pickupTime}</strong>
         : <span className="text-slate-500">Select a time below</span>}
     </div>
       </div>
     </div>
 
     <div>
-      <label className="text-sm font-semibold text-slate-300 mb-1.5 block">Pickup hour</label>
+      <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Pickup hour</label>
 
       <div className="grid grid-cols-4 gap-1.5 mb-2" role="tablist">
         {HOUR_GROUPS.map((g, i) => {
@@ -1717,7 +1717,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
               key={g.title} type="button" role="tab" aria-selected={periodTab === i} disabled={allPast}
               onClick={() => setPeriodTab(i)}
               className={`py-1.5 rounded-lg border text-center leading-tight transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
-                periodTab === i ? 'bg-orange-500/20 border-orange-500 text-white font-bold' : 'bg-slate-900 border-slate-700 text-slate-400'
+                periodTab === i ? 'bg-orange-500 text-white font-bold shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
               }`}
             >
               <span className="block text-xs">{g.title}</span>
@@ -1732,7 +1732,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
           <button
             key={h} type="button" disabled={hourPast(h)} aria-pressed={pickupHour === h} onClick={() => pickHour(h)}
             className={`py-2 rounded-lg border text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
-              pickupHour === h ? 'bg-orange-500/20 border-orange-500 text-white font-bold' : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-600'
+              pickupHour === h ? 'bg-orange-50 border-orange-500 text-orange-600 font-bold' : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
             }`}
           >
             {hourLabel(h)}
@@ -1743,22 +1743,22 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
     </div>
 
     {pickupHour !== null && (
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-800 pt-3">
-        <span className="text-xs text-slate-400">Minutes <span className="text-slate-600">(optional)</span></span>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-200 pt-3">
+        <span className="text-xs text-slate-500">Minutes <span className="text-slate-400">(optional)</span></span>
         <div className="flex gap-1.5">
           {MINUTES.map((m) => (
             <button
               key={m} type="button" disabled={slotPast(pickupHour, m)} aria-pressed={pickupMinute === m} onClick={() => setPickupMinute(m)}
               className={`px-3 py-1.5 rounded-lg border text-xs transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
-                pickupMinute === m ? 'bg-orange-500/20 border-orange-500 text-white font-bold' : 'bg-slate-900 border-slate-700 text-slate-300'
+                pickupMinute === m ? 'bg-orange-50 border-orange-500 text-orange-600 font-bold' : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
               }`}
             >
               :{String(m).padStart(2, '0')}
             </button>
           ))}
         </div>
-        <span className="ml-auto text-sm text-slate-300" aria-live="polite">
-          <strong className="text-orange-400">{pickupTime}</strong>
+        <span className="ml-auto text-sm text-slate-700" aria-live="polite">
+          <strong className="text-orange-600 font-bold">{pickupTime}</strong>
         </span>
       </div>
     )}
@@ -1768,7 +1768,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
           {/* STEP 3 */}
           {currentStep === 3 && (
             <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <Home className="w-5 h-5 text-orange-500" /> Step 3 — Property Details
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -1787,7 +1787,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
 
                {propertyType === 'Other' && (
       <div>
-        <label className="text-sm font-semibold text-slate-300 mb-1.5 block">Describe your property *</label>
+        <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Describe your property *</label>
         <textarea
           rows={3} maxLength={300} value={propertyOtherDetails}
           onChange={(e) => setPropertyOtherDetails(e.target.value)}
@@ -1806,7 +1806,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
           {/* STEP 4 */}
           {currentStep === 4 && (
             <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <Truck className="w-5 h-5 text-orange-500" /> Step 4 — Select Vehicle Type
               </h2>
               {(pickupAddress.parking_access === 'narrow' || dropAddress.parking_access === 'narrow') && (
@@ -1847,19 +1847,19 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
           {currentStep === 5 && (
   <div className="glass-card p-5 rounded-3xl space-y-4">
     <div>
-      <h2 className="text-xl font-bold text-white flex items-center gap-2">
+      <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
         <Package className="w-5 h-5 text-orange-500" /> Step 5 — Select Packing Material & Service
       </h2>
       <p className="text-xs text-slate-400 mt-1">Choose one or more. “No Packing” clears the others.</p>
     </div>
 
     {recommendedPacking.length > 0 && (
-      <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900/60 border border-slate-800 rounded-xl px-3 py-2 text-xs">
-        <span className="text-slate-300">
-          For <strong className="text-white">{propertyType}</strong> we suggest:{' '}
-          <span className="text-orange-400">{recommendedPacking.join(' + ')}</span>
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-orange-50 border border-orange-200 rounded-xl px-3 py-2 text-xs">
+        <span className="text-slate-700">
+          For <strong className="text-slate-900">{propertyType}</strong> we suggest:{' '}
+          <span className="text-orange-600 font-semibold">{recommendedPacking.join(' + ')}</span>
         </span>
-        <button type="button" onClick={() => setSelectedPacking(recommendedPacking)} className="text-orange-400 font-semibold hover:underline">
+        <button type="button" onClick={() => setSelectedPacking(recommendedPacking)} className="text-orange-600 font-semibold hover:underline">
           Use suggestion
         </button>
       </div>
@@ -1873,19 +1873,19 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
           <button
             key={p} type="button" role="checkbox" aria-checked={on} onClick={() => togglePacking(p)}
             className={`text-left p-3 rounded-xl border transition-all ${
-              on ? 'bg-orange-500/15 border-orange-500' : 'bg-slate-900/60 border-slate-800 hover:border-slate-600'
+              on ? 'bg-orange-50 border-orange-500 shadow-sm' : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
             }`}
           >
             <div className="flex items-start gap-2.5">
               <span className={`mt-0.5 w-4 h-4 flex-shrink-0 rounded border flex items-center justify-center ${
-                on ? 'bg-orange-500 border-orange-500' : 'border-slate-600'
+                on ? 'bg-orange-500 border-orange-500' : 'border-slate-300 bg-white'
               }`}>
                 {on && <Check className="w-3 h-3 text-white" />}
               </span>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-2">
-                  <span className={`text-sm font-semibold ${on ? 'text-white' : 'text-slate-300'}`}>{p}</span>
-                  <span className="text-sm text-orange-400 whitespace-nowrap">
+                  <span className={`text-sm font-semibold ${on ? 'text-slate-900' : 'text-slate-700'}`}>{p}</span>
+                  <span className="text-sm text-orange-600 font-semibold whitespace-nowrap">
                     {PACKING_INFO[p].price ? `+ ₹${PACKING_INFO[p].price.toLocaleString('en-IN')}` : '₹0'}
                   </span>
                 </div>
@@ -1908,14 +1908,14 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
     )}
 
     {/* Selected total */}
-    <div className="border-t border-slate-800 pt-3 flex flex-wrap items-center justify-between gap-2">
+    <div className="border-t border-slate-200 pt-3 flex flex-wrap items-center justify-between gap-2">
       <div className="text-xs text-slate-400 min-w-0">
         {selectedPacking.length === 0
           ? 'Nothing selected yet.'
           : <>{selectedPacking.length} selected: <span className="text-slate-200">{selectedPacking.join(', ')}</span></>}
       </div>
-      <div className="text-sm text-slate-300">
-        Packing total <strong className="text-orange-400 text-lg ml-1">₹{packingTotal.toLocaleString('en-IN')}</strong>
+      <div className="text-sm text-slate-700">
+        Packing total <strong className="text-orange-600 text-lg ml-1">₹{packingTotal.toLocaleString('en-IN')}</strong>
       </div>
     </div>
   </div>
@@ -1969,7 +1969,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
         <button
           key={c} type="button" role="tab" aria-selected={itemTab === c} onClick={() => setItemTab(c)}
           className={`px-3 py-1.5 rounded-lg border text-xs transition-all ${
-            itemTab === c ? 'bg-orange-500/20 border-orange-500 text-white font-bold' : 'bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-600'
+            itemTab === c ? 'bg-orange-500 text-white font-bold shadow-sm' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
           }`}
         >
           {c}
@@ -2024,7 +2024,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
         className={inputCls()}
       />
       <button type="button" onClick={addCustom}
-        className="px-4 rounded-xl border border-orange-500 text-orange-400 text-sm font-semibold hover:bg-orange-500/10 whitespace-nowrap">
+        className="px-4 rounded-xl border border-orange-500 text-orange-600 text-sm font-semibold hover:bg-orange-50 whitespace-nowrap">
         Add item
       </button>
     </div>
@@ -2063,15 +2063,15 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
 {currentStep === 6 && (
   <div className="glass-card p-5 rounded-3xl space-y-4">
     <div>
-      <h2 className="text-xl font-bold text-white flex items-center gap-2">
+      <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
         <Boxes className="w-5 h-5 text-orange-500" /> Step 6 — What are you moving?
       </h2>
       <p className="text-xs text-slate-400 mt-1">Tap an item to add it. Tap again for more. Use − to remove.</p>
     </div>
 
     {TYPICAL[propertyType] && (
-      <div className="flex flex-wrap items-center justify-between gap-2 bg-orange-500/10 border border-orange-500/30 rounded-xl px-3 py-2.5">
-        <span className="text-xs text-slate-200 flex items-center gap-1.5">
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-orange-50 border border-orange-200 rounded-xl px-3 py-2.5">
+        <span className="text-xs text-slate-700 flex items-center gap-1.5">
           <Sparkles className="w-4 h-4 text-orange-400" /> Moving a {propertyType}? Start with a typical list.
         </span>
         <button type="button" onClick={applyTypical}
@@ -2087,7 +2087,7 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
         <button
           key={c} type="button" role="tab" aria-selected={itemTab === c} onClick={() => setItemTab(c)}
           className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-xs transition-all ${
-            itemTab === c ? 'bg-orange-500/20 border-orange-500 text-white font-bold' : 'bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-600'
+            itemTab === c ? 'bg-orange-50 border-orange-500 text-orange-600 font-bold' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
           }`}
         >
           {c}
@@ -2120,18 +2120,18 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
     </div>
 
     {/* Selected chips */}
-    <div className="border-t border-slate-800 pt-3">
+    <div className="border-t border-slate-200 pt-3">
       {totalQty === 0 ? (
         <span className="text-xs text-slate-500">No items added yet.</span>
       ) : (
         <>
-          <p className="text-xs font-bold text-orange-400 mb-2">{totalQty} item{totalQty > 1 ? 's' : ''} selected</p>
+          <p className="text-xs font-bold text-orange-600 mb-2">{totalQty} item{totalQty > 1 ? 's' : ''} selected</p>
           <div className="flex flex-wrap gap-1.5">
             {itemList.map((i) => (
-              <span key={`${i.category}-${i.name}`} className="inline-flex items-center gap-1.5 bg-slate-800 rounded-lg pl-2.5 pr-1.5 py-1 text-xs text-slate-200">
+              <span key={`${i.category}-${i.name}`} className="inline-flex items-center gap-1.5 bg-slate-100 border border-slate-200 rounded-lg pl-2.5 pr-1.5 py-1 text-xs text-slate-800">
                 {i.name} ×{i.qty}
                 <button type="button" aria-label={`Remove ${i.name}`} onClick={() => setQty(i.category, i.name, 0)}
-                  className="text-slate-400 hover:text-white">
+                  className="text-slate-400 hover:text-slate-700">
                   <X className="w-3.5 h-3.5" />
                 </button>
               </span>
@@ -2239,21 +2239,21 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
           {/* STEP 9 */}
           {currentStep === 9 && (
             <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-200">
                 <div>
-                  <h2 className="text-2xl font-black text-white">Booking Summary</h2>
-                  <span className="text-xs text-slate-400">Review your details before confirming</span>
+                  <h2 className="text-2xl font-black text-slate-900">Booking Summary</h2>
+                  <span className="text-xs text-slate-500">Review your details before confirming</span>
                 </div>
-                <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" /> Phone verified
                 </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs">
                 {([['Pickup', pickupAddress, 'text-orange-400'], ['Drop', dropAddress, 'text-blue-400']] as const).map(([name, a, color]) => (
-                  <div key={name} className="space-y-1 bg-slate-900 p-4 rounded-xl border border-slate-800">
+                  <div key={name} className="space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-200">
                     <div className="flex justify-between"><span className={`${color} font-bold uppercase tracking-wider`}>{name}</span><EditBtn step={1} /></div>
-                    <p className="text-slate-200 font-semibold text-sm">{a.address_line}</p>
+                    <p className="text-slate-900 font-semibold text-sm">{a.address_line}</p>
                     {a.landmark && <p className="text-slate-400">Near {a.landmark}</p>}
                     <p className="text-slate-400">{a.city}, {a.state} - {a.pincode}</p>
                     <p className="text-slate-500">
@@ -2265,14 +2265,14 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
                 ))}
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-xs">
-                {/* <div><span className="text-slate-500 block">Date <EditBtn step={2} /></span><strong className="text-white text-sm">{pickupDate}</strong></div>
-                <div><span className="text-slate-500 block">Time</span><strong className="text-white text-sm">{pickupTime}</strong></div>
-                <div><span className="text-slate-500 block">Vehicle <EditBtn step={4} /></span><strong className="text-white text-sm">{vehicleType}</strong></div> */}
-                                <div><span className="text-slate-500 block">Date</span><strong className="text-white text-sm">{pickupDate}</strong></div>
-                <div><span className="text-slate-500 block">Time</span><strong className="text-white text-sm">{pickupTime}</strong></div>
-                <div><span className="text-slate-500 block">Vehicle</span><strong className="text-white text-sm">{vehicleType}</strong></div>
-                <div><span className="text-slate-500 block">Property <EditBtn step={3} /></span><strong className="text-white text-sm">{propertyType}</strong></div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+                {/* <div><span className="text-slate-500 block">Date <EditBtn step={2} /></span><strong className="text-slate-900 text-sm">{pickupDate}</strong></div>
+                <div><span className="text-slate-500 block">Time</span><strong className="text-slate-900 text-sm">{pickupTime}</strong></div>
+                <div><span className="text-slate-500 block">Vehicle <EditBtn step={4} /></span><strong className="text-slate-900 text-sm">{vehicleType}</strong></div> */}
+                <div><span className="text-slate-500 block">Date</span><strong className="text-slate-900 text-sm">{pickupDate}</strong></div>
+                <div><span className="text-slate-500 block">Time</span><strong className="text-slate-900 text-sm">{pickupTime}</strong></div>
+                <div><span className="text-slate-500 block">Vehicle</span><strong className="text-slate-900 text-sm">{vehicleType}</strong></div>
+                <div><span className="text-slate-500 block">Property <EditBtn step={3} /></span><strong className="text-slate-900 text-sm">{propertyType}</strong></div>
               </div>
 
               {/* <div className="space-y-2 text-xs">
@@ -2305,14 +2305,14 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
     ['Items', itemList.map((i) => `${i.name} ×${i.qty}`).join(', ')],
     ...(specialRequirements ? [['Notes', specialRequirements]] : []),
   ].map(([k, v]) => (
-    <div key={k} className="flex justify-between gap-4 border-b border-slate-800 pb-2">
-      <span className="text-slate-400 flex-shrink-0">{k}</span>
-      <span className="text-white font-semibold text-right break-words min-w-0">{v}</span>
+    <div key={k} className="flex justify-between gap-4 border-b border-slate-100 pb-2">
+      <span className="text-slate-500 flex-shrink-0">{k}</span>
+      <span className="text-slate-900 font-semibold text-right break-words min-w-0">{v}</span>
     </div>
   ))}
 </div>
               <div>
-                <label className="text-xs text-slate-400 mb-1 block">Special notes / fragile items (optional)</label>
+                <label className="text-xs text-slate-600 mb-1 block">Special notes / fragile items (optional)</label>
                 <input
                   value={specialRequirements}
                   onChange={(e) => setSpecialRequirements(e.target.value)}
@@ -2321,12 +2321,12 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
                 />
               </div>
 
-              <p className="text-xs text-slate-400 flex items-center gap-1">
+              <p className="text-xs text-slate-600 flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5" /> No payment now. Pay after service. Price includes GST.
               </p>
               <button
                 type="button" disabled={isSubmitting} onClick={handleConfirmBooking}
-                className="w-full py-4 rounded-xl brand-gradient-bg text-white font-black text-base shadow-glow flex items-center justify-center gap-2 disabled:opacity-60"
+                className="w-full py-4 rounded-xl brand-gradient-bg text-white font-black text-base shadow-md hover:shadow-orange-500/25 flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 {isSubmitting ? 'Saving your booking...' : (<><CheckCircle2 className="w-5 h-5" /> Confirm Booking</>)}
               </button>
@@ -2337,11 +2337,11 @@ const recommendedPacking = RECOMMENDED_PACKING[propertyType] ?? [];
                     {currentStep !== 9 && (
             <div className="flex items-center justify-between pt-4">
               <button type="button" onClick={handlePrev} disabled={currentStep === 1}
-                className="px-5 py-2.5 rounded-xl glass-card text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 disabled:opacity-30 flex items-center gap-2">
+                className="px-5 py-2.5 rounded-xl glass-card text-slate-700 hover:text-slate-900 font-semibold text-xs border border-slate-200 hover:bg-slate-50 disabled:opacity-30 flex items-center gap-2 shadow-sm">
                 <ArrowLeft className="w-4 h-4" /> Previous
               </button>
               <button type="button" onClick={handleNext}
-                className="px-7 py-3 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-glow flex items-center gap-2">
+                className="px-7 py-3 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 flex items-center gap-2">
                 Next Step <ArrowRight className="w-4 h-4" />
               </button>
             </div>

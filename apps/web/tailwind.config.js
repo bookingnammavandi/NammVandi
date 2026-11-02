@@ -44,9 +44,11 @@ module.exports = {
         sm: '0.5rem',
       },
       boxShadow: {
-        glass: '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
-        glow: '0 0 20px rgba(249, 115, 22, 0.35)',
-        premium: '0 20px 40px -15px rgba(15, 23, 42, 0.1)',
+        glass: '0 8px 30px 0 rgba(15, 23, 42, 0.06)',
+        glow: '0 0 20px rgba(249, 115, 22, 0.25)',
+        card: '0 2px 10px 0 rgba(15, 23, 42, 0.04), 0 1px 3px 0 rgba(15, 23, 42, 0.02)',
+        subtle: '0 1px 3px 0 rgba(15, 23, 42, 0.05)',
+        premium: '0 20px 40px -15px rgba(15, 23, 42, 0.08)',
       }
     },
   },

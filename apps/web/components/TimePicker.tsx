@@ -135,19 +135,19 @@ export function TimePicker({
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
-        className="w-full bg-slate-900 border border-slate-700 hover:border-slate-600 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-white flex items-center justify-between gap-1.5 transition-colors outline-none disabled:opacity-50 disabled:cursor-not-allowed group"
+        className="w-full bg-white border border-slate-200 hover:border-slate-300 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-slate-800 flex items-center justify-between gap-1.5 transition-colors outline-none disabled:opacity-50 disabled:cursor-not-allowed group shadow-sm"
       >
         <div className="flex items-center gap-2 truncate">
-          <Clock className="w-3.5 h-3.5 text-orange-400 flex-shrink-0" />
-          <span className="font-semibold text-white tracking-wide text-xs sm:text-sm">{displayTime}</span>
+          <Clock className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
+          <span className="font-semibold text-slate-800 tracking-wide text-xs sm:text-sm">{displayTime}</span>
         </div>
         <div className="flex items-center gap-1 flex-shrink-0">
-          <span className="text-[10px] font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-1.5 py-0.5 rounded">
+          <span className="text-[10px] font-bold text-orange-600 bg-orange-50 border border-orange-200 px-1.5 py-0.5 rounded">
             {period}
           </span>
           <ChevronDown
             className={`w-3 h-3 text-slate-400 transition-transform ${
-              isOpen ? (position === 'top' ? 'rotate-0 text-orange-400' : 'rotate-180 text-orange-400') : ''
+              isOpen ? (position === 'top' ? 'rotate-0 text-orange-500' : 'rotate-180 text-orange-500') : ''
             }`}
           />
         </div>
@@ -158,7 +158,7 @@ export function TimePicker({
         <div
           role="dialog"
           aria-label="Choose pickup time"
-          className={`absolute z-50 right-0 w-72 sm:w-[285px] bg-slate-900/98 backdrop-blur-2xl border border-slate-700 rounded-2xl p-3 shadow-2xl shadow-black/90 space-y-2.5 ${
+          className={`absolute z-50 right-0 w-72 sm:w-[285px] bg-white/98 backdrop-blur-2xl border border-slate-200 rounded-2xl p-3 shadow-xl shadow-slate-900/10 space-y-2.5 ${
             position === 'top'
               ? 'bottom-full mb-2'
               : 'top-full mt-2'
@@ -166,14 +166,14 @@ export function TimePicker({
         >
           {/* AM / PM Option Selector */}
           <div>
-            <div className="text-[11px] font-bold text-slate-300 mb-1 flex items-center justify-between">
+            <div className="text-[11px] font-bold text-slate-700 mb-1 flex items-center justify-between">
               <span>Choose AM or PM</span>
-              <span className="text-[10px] text-orange-400 font-semibold">
+              <span className="text-[10px] text-orange-600 font-semibold">
                 {period === 'AM' ? 'Morning (AM)' : 'Afternoon (PM)'}
               </span>
             </div>
             <div
-              className="grid grid-cols-2 gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800"
+              className="grid grid-cols-2 gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200"
               role="radiogroup"
               aria-label="Select AM or PM"
             >
@@ -184,8 +184,8 @@ export function TimePicker({
                 onClick={() => handlePeriodChange('AM')}
                 className={`py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
                   period === 'AM'
-                    ? 'bg-orange-500 text-white shadow-glow'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                    ? 'bg-orange-500 text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
                 <span>AM</span>
@@ -198,8 +198,8 @@ export function TimePicker({
                 onClick={() => handlePeriodChange('PM')}
                 className={`py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
                   period === 'PM'
-                    ? 'bg-orange-500 text-white shadow-glow'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                    ? 'bg-orange-500 text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
                 <span>PM</span>
@@ -210,9 +210,9 @@ export function TimePicker({
 
           {/* Hour Selector (1-12) */}
           <div>
-            <div className="text-[11px] font-bold text-slate-300 mb-1 flex items-center justify-between">
+            <div className="text-[11px] font-bold text-slate-700 mb-1 flex items-center justify-between">
               <span>Hour</span>
-              <span className="text-[10px] text-slate-400 font-mono">1 – 12 {period}</span>
+              <span className="text-[10px] text-slate-500 font-mono">1 – 12 {period}</span>
             </div>
             <div className="grid grid-cols-6 gap-1" role="group" aria-label="Select hour">
               {HOURS.map((h) => {
@@ -224,8 +224,8 @@ export function TimePicker({
                     onClick={() => handleHourChange(h)}
                     className={`py-1.5 rounded-lg text-xs font-bold border transition-all ${
                       isSelected
-                        ? 'bg-orange-500 text-white border-orange-500 shadow-glow'
-                        : 'bg-slate-950/70 border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white hover:bg-slate-900'
+                        ? 'bg-orange-500 text-white border-orange-500 shadow-sm'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:text-slate-900 hover:bg-white'
                     }`}
                   >
                     {String(h).padStart(2, '0')}
@@ -237,9 +237,9 @@ export function TimePicker({
 
           {/* Minute Selector */}
           <div>
-            <div className="text-[11px] font-bold text-slate-300 mb-1 flex items-center justify-between">
+            <div className="text-[11px] font-bold text-slate-700 mb-1 flex items-center justify-between">
               <span>Minutes</span>
-              <span className="text-[10px] text-slate-400">15 min slots</span>
+              <span className="text-[10px] text-slate-500">15 min slots</span>
             </div>
             <div className="grid grid-cols-4 gap-1.5" role="group" aria-label="Select minute">
               {MINUTES.map((m) => {
@@ -251,8 +251,8 @@ export function TimePicker({
                     onClick={() => handleMinuteChange(m)}
                     className={`py-1.5 rounded-lg text-xs font-bold border transition-all ${
                       isSelected
-                        ? 'bg-orange-500 text-white border-orange-500 shadow-glow'
-                        : 'bg-slate-950/70 border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white hover:bg-slate-900'
+                        ? 'bg-orange-500 text-white border-orange-500 shadow-sm'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:text-slate-900 hover:bg-white'
                     }`}
                   >
                     :{String(m).padStart(2, '0')}
@@ -263,14 +263,14 @@ export function TimePicker({
           </div>
 
           {/* Footer Action */}
-          <div className="border-t border-slate-800/80 pt-2 flex items-center justify-between">
-            <div className="text-xs text-slate-300">
-              Time: <strong className="text-orange-400">{displayTime}</strong>
+          <div className="border-t border-slate-100 pt-2 flex items-center justify-between">
+            <div className="text-xs text-slate-600">
+              Time: <strong className="text-orange-600">{displayTime}</strong>
             </div>
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="px-3.5 py-1 rounded-lg brand-gradient-bg text-white text-xs font-bold shadow-glow hover:opacity-95 transition-opacity"
+              className="px-3.5 py-1 rounded-lg brand-gradient-bg text-white text-xs font-bold shadow-sm hover:opacity-95 transition-opacity"
             >
               Done
             </button>

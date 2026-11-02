@@ -52,35 +52,35 @@ export default function AdminBookingsPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-white">All Bookings Management</h1>
-            <p className="text-xs text-slate-400 mt-1">Search, filter, edit, and dispatch all customer relocations connected to Supabase DB.</p>
+            <h1 className="text-2xl font-black text-slate-900">All Bookings Management</h1>
+            <p className="text-xs text-slate-500 mt-1">Search, filter, edit, and dispatch all customer relocations connected to Supabase DB.</p>
           </div>
           <Link
             href="/admin/create-booking"
-            className="px-5 py-2.5 rounded-xl brand-gradient-bg text-white font-bold text-xs shadow-glow flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl brand-gradient-bg text-white font-bold text-xs shadow-md hover:shadow-orange-500/25 flex items-center gap-2"
           >
             <Plus className="w-4 h-4" /> Create Booking
           </Link>
         </div>
 
         {/* Search & Filters */}
-        <div className="glass-card p-4 rounded-2xl border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="glass-card p-4 rounded-2xl border border-slate-200 bg-white shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="relative">
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search booking #, name, phone, email..."
-              className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-4 py-2.5 text-xs text-white outline-none pl-9"
+              className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 outline-none pl-9 focus:ring-1 focus:ring-orange-500"
             />
-            <Search className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
           </div>
 
           <div>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-3 py-2.5 text-xs text-white outline-none"
+              className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-xl px-3 py-2.5 text-xs text-slate-900 outline-none focus:ring-1 focus:ring-orange-500"
             >
               <option value="all">Filter by All Statuses</option>
               <option value="pending">Pending OTP</option>
@@ -96,7 +96,7 @@ export default function AdminBookingsPage() {
             <select
               value={cityFilter}
               onChange={(e) => setCityFilter(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-3 py-2.5 text-xs text-white outline-none"
+              className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-xl px-3 py-2.5 text-xs text-slate-900 outline-none focus:ring-1 focus:ring-orange-500"
             >
               <option value="all">Filter by All Cities</option>
               <option value="Chennai">Chennai</option>
@@ -109,18 +109,18 @@ export default function AdminBookingsPage() {
         </div>
 
         {/* Table */}
-        <div className="glass-panel p-6 rounded-3xl border border-slate-800 overflow-x-auto">
+        <div className="glass-panel p-6 rounded-3xl border border-slate-200 bg-white shadow-sm overflow-x-auto">
           {isLoading ? (
-            <div className="py-12 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-orange-400" /> Fetching bookings from Supabase DB API...
+            <div className="py-12 text-center text-xs text-slate-500 flex items-center justify-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin text-orange-500" /> Fetching bookings from Supabase DB API...
             </div>
           ) : filteredBookings.length === 0 ? (
-            <div className="py-12 text-center text-xs text-slate-400">
+            <div className="py-12 text-center text-xs text-slate-500">
               No matching bookings found in Supabase DB.
             </div>
           ) : (
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <thead className="bg-slate-50 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200">
                 <tr>
                   <th className="py-3 px-4">Booking Ref</th>
                   <th className="py-3 px-4">Customer Details</th>
@@ -131,29 +131,29 @@ export default function AdminBookingsPage() {
                   <th className="py-3 px-4">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-100">
                 {filteredBookings.map((b) => (
-                  <tr key={b.id} className="hover:bg-slate-900/40 transition-colors">
-                    <td className="py-4 px-4 font-mono font-bold text-white">{b.booking_number}</td>
+                  <tr key={b.id} className="hover:bg-slate-50/80 transition-colors">
+                    <td className="py-4 px-4 font-mono font-bold text-slate-900">{b.booking_number}</td>
                     <td className="py-4 px-4">
-                      <span className="font-bold text-slate-200 block">{b.customer_name}</span>
+                      <span className="font-bold text-slate-900 block">{b.customer_name}</span>
                       <span className="text-slate-500 text-[11px]">{b.customer_phone}</span>
                     </td>
-                    <td className="py-4 px-4 text-slate-300">
-                      <strong className="text-white">{b.pickup_city}</strong> ➔ <strong className="text-white">{b.drop_city}</strong>
+                    <td className="py-4 px-4 text-slate-600">
+                      <strong className="text-slate-900 font-semibold">{b.pickup_city}</strong> ➔ <strong className="text-slate-900 font-semibold">{b.drop_city}</strong>
                     </td>
-                    <td className="py-4 px-4 text-slate-300">
+                    <td className="py-4 px-4 text-slate-600">
                       {b.pickup_date} <br />
                       <span className="text-slate-500 text-[11px]">{b.pickup_time}</span>
                     </td>
-                    <td className="py-4 px-4 text-slate-300">{b.vehicle_type}</td>
-                    <td className="py-4 px-4 font-bold text-orange-400">₹{b.estimated_price?.toLocaleString() || 'N/A'}</td>
+                    <td className="py-4 px-4 text-slate-600">{b.vehicle_type}</td>
+                    <td className="py-4 px-4 font-bold text-orange-600">₹{b.estimated_price?.toLocaleString() || 'N/A'}</td>
                     <td className="py-4 px-4">
-                      {b.status === 'assigned' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">Assigned</span>}
-                      {b.status === 'confirmed' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">Confirmed</span>}
-                      {b.status === 'pending' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">Pending</span>}
-                      {b.status === 'in_transit' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-400 border border-purple-500/30">In Transit</span>}
-                      {b.status === 'completed' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Completed</span>}
+                      {b.status === 'assigned' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">Assigned</span>}
+                      {b.status === 'confirmed' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">Confirmed</span>}
+                      {b.status === 'pending' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">Pending</span>}
+                      {b.status === 'in_transit' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">In Transit</span>}
+                      {b.status === 'completed' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Completed</span>}
                     </td>
                   </tr>
                 ))}
