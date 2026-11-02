@@ -49,7 +49,7 @@ interface Props {
 }
 
 const inputCls = (bad?: string) =>
-  `w-full bg-slate-900 border ${bad ? 'border-red-500' : 'border-slate-700'} focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-white outline-none [color-scheme:dark]`;
+  `w-full bg-slate-50 border ${bad ? 'border-red-500' : 'border-slate-200'} focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-xl px-4 py-3 text-sm text-slate-900 outline-none transition-all`;
 
 export function CustomerVerifyModal({ open, onVerified, dismissible = true, onClose }: Props) {
   const [phase, setPhase] = useState<'details' | 'otp'>('details');
@@ -71,7 +71,7 @@ export function CustomerVerifyModal({ open, onVerified, dismissible = true, onCl
     return () => clearTimeout(t);
   }, [cooldown]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (!open) return;
     setPhase('details');
     setOtp('');
@@ -162,28 +162,28 @@ export function CustomerVerifyModal({ open, onVerified, dismissible = true, onCl
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+      className="fixed m-auto inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
       onMouseDown={(e) => { if (e.target === e.currentTarget && dismissible) onClose?.(); }}
     >
       <div
         role="dialog" aria-modal="true"
         aria-label={phase === 'details' ? 'Customer details' : 'Verify your phone'}
-        className="glass-card w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl p-6 space-y-5 border border-slate-800 bg-slate-950"
+        className="glass-card w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl p-6 space-y-5 border border-slate-200 bg-white shadow-2xl"
       >
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
               {phase === 'details'
                 ? <><User className="w-5 h-5 text-orange-500" /> Your details</>
                 : <><ShieldCheck className="w-5 h-5 text-orange-500" /> Verify your phone</>}
             </h2>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               {phase === 'details' ? (
                 'We need these to confirm your booking.'
               ) : (
                 <>
-                  We sent a 6-digit code to <strong className="text-white">{phone}</strong>{' '}
-                  <button type="button" onClick={() => { setPhase('details'); setOtp(''); setFormError(null); }} className="text-orange-400 hover:underline">
+                  We sent a 6-digit code to <strong className="text-slate-900">{phone}</strong>{' '}
+                  <button type="button" onClick={() => { setPhase('details'); setOtp(''); setFormError(null); }} className="text-orange-600 hover:underline font-semibold">
                     Change number
                   </button>
                 </>
@@ -191,14 +191,14 @@ export function CustomerVerifyModal({ open, onVerified, dismissible = true, onCl
             </p>
           </div>
           {dismissible && (
-            <button type="button" aria-label="Close" onClick={onClose} className="text-slate-400 hover:text-white">
+            <button type="button" aria-label="Close" onClick={onClose} className="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition-colors">
               <X className="w-5 h-5" />
             </button>
           )}
         </div>
 
         {formError && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-3 rounded-xl flex items-center gap-2 text-xs">
+          <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-xl flex items-center gap-2 text-xs">
             <AlertCircle className="w-4 h-4 flex-shrink-0" /> <span>{formError}</span>
           </div>
         )}
@@ -206,36 +206,36 @@ export function CustomerVerifyModal({ open, onVerified, dismissible = true, onCl
         {phase === 'details' ? (
           <div className="space-y-4">
             <div>
-              <label className="text-xs text-slate-300 font-semibold mb-1 block">Full name *</label>
+              <label className="text-xs text-slate-700 font-semibold mb-1 block">Full name *</label>
               <input ref={firstFieldRef} value={name} onChange={(e) => setName(e.target.value)} placeholder="Ramesh Kumar" className={inputCls(errors.name)} />
               <FieldError msg={errors.name} />
             </div>
             <div>
-              <label className="text-xs text-slate-300 font-semibold mb-1 block">Mobile number (+91) *</label>
+              <label className="text-xs text-slate-700 font-semibold mb-1 block">Mobile number (+91) *</label>
               <input inputMode="numeric" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="98765 43210" className={inputCls(errors.phone)} />
               <FieldError msg={errors.phone} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-slate-400 mb-1 block">Email (optional)</label>
+                <label className="text-xs text-slate-500 mb-1 block">Email (optional)</label>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@gmail.com" className={inputCls(errors.email)} />
                 <FieldError msg={errors.email} />
               </div>
               <div>
-                <label className="text-xs text-slate-400 mb-1 block">Alternate phone (optional)</label>
+                <label className="text-xs text-slate-500 mb-1 block">Alternate phone (optional)</label>
                 <input inputMode="numeric" value={alternatePhone} onChange={(e) => setAlternatePhone(e.target.value)} placeholder="99887 76655" className={inputCls()} />
               </div>
             </div>
             <button type="button" disabled={busy} onClick={submitDetails}
-              className="w-full py-3.5 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-glow disabled:opacity-60">
+              className="w-full py-3.5 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 disabled:opacity-60 transition-all">
               {busy ? 'Sending OTP...' : 'Send OTP'}
             </button>
           </div>
         ) : (
           <div className="space-y-4">
             {mockOtpMsg && process.env.NODE_ENV !== 'production' && (
-              <div className="bg-amber-500/10 border border-amber-500/30 text-amber-400 p-3 rounded-xl text-xs flex items-center gap-2">
-                <Sparkles className="w-4 h-4" /> <span>{mockOtpMsg}</span>
+              <div className="bg-amber-50 border border-amber-200 text-amber-700 p-3 rounded-xl text-xs flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-500" /> <span>{mockOtpMsg}</span>
               </div>
             )}
             <input
@@ -243,16 +243,16 @@ export function CustomerVerifyModal({ open, onVerified, dismissible = true, onCl
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
               onKeyDown={(e) => { if (e.key === 'Enter') verify(); }}
               placeholder="------" autoFocus
-              className="w-full bg-slate-900 border-2 border-orange-500 rounded-2xl px-4 py-3.5 text-center text-2xl font-mono tracking-[0.5em] text-white outline-none"
+              className="w-full bg-slate-50 border-2 border-orange-500 rounded-2xl px-4 py-3.5 text-center text-2xl font-mono tracking-[0.5em] text-slate-900 outline-none focus:bg-white focus:ring-2 focus:ring-orange-500/20"
             />
             <div className="flex items-center justify-between text-xs">
-              <button type="button" disabled={cooldown > 0 || busy} onClick={resendOtp} className="text-orange-400 font-semibold hover:underline disabled:text-slate-600">
+              <button type="button" disabled={cooldown > 0 || busy} onClick={resendOtp} className="text-orange-600 font-semibold hover:underline disabled:text-slate-400">
                 {cooldown > 0 ? `Resend OTP in ${cooldown}s` : 'Resend OTP'}
               </button>
               <span className="text-slate-500 flex items-center gap-1"><Lock className="w-3 h-3" /> Secure verification</span>
             </div>
             <button type="button" disabled={busy} onClick={verify}
-              className="w-full py-3.5 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-glow disabled:opacity-60">
+              className="w-full py-3.5 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 disabled:opacity-60 transition-all">
               {busy ? 'Verifying...' : 'Verify and continue'}
             </button>
           </div>

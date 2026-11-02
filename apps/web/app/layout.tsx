@@ -11,7 +11,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'NammaVandi — Premium Relocation, Packers & Movers in South India',
+  title: 'NammaVandi - Premium Relocation, Packers & Movers in South India',
   description:
     'Reliable packers and movers, house relocation, office shifting, bike and car transport across Chennai, Bengaluru, Coimbatore, Madurai, Trichy and all South India. Book online with instant estimate.',
   keywords: [
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" dir="ltr" className={dmSans.variable}>
-      <body className={`${dmSans.className} bg-slate-950 text-slate-100 flex flex-col min-h-screen font-sans`}>
+      <body className={`${dmSans.className} bg-slate-50 text-slate-800 flex flex-col min-h-screen font-sans`}>
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>

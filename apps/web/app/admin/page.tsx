@@ -127,12 +127,12 @@ export default function AdminDashboardPage() {
         {/* Title Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-white">Operations Dashboard</h1>
-            <p className="text-xs text-slate-400 mt-1">Real-time overview of customer moves, assignments, and dispatch status connected to Supabase DB.</p>
+            <h1 className="text-2xl font-black text-slate-900">Operations Dashboard</h1>
+            <p className="text-xs text-slate-500 mt-1">Real-time overview of customer moves, assignments, and dispatch status connected to Supabase DB.</p>
           </div>
           <Link
             href="/admin/create-booking"
-            className="px-5 py-3 rounded-xl brand-gradient-bg text-white font-bold text-xs shadow-glow hover:scale-[1.02] transition-transform flex items-center gap-2 self-start"
+            className="px-5 py-3 rounded-xl brand-gradient-bg text-white font-bold text-xs shadow-md hover:shadow-orange-500/25 hover:scale-[1.02] transition-transform flex items-center gap-2 self-start"
           >
             <Plus className="w-4 h-4" /> Create Manual Booking
           </Link>
@@ -140,7 +140,7 @@ export default function AdminDashboardPage() {
 
         {/* Notification Toast */}
         {notificationMsg && (
-          <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 p-4 rounded-xl text-xs flex items-center gap-2 animate-in fade-in">
+          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-xl text-xs flex items-center gap-2 animate-in fade-in">
             <Sparkles className="w-4 h-4" />
             <span>{notificationMsg}</span>
           </div>
@@ -148,61 +148,61 @@ export default function AdminDashboardPage() {
 
         {/* Stats Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-1">
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Total</span>
-            <span className="text-3xl font-black text-white">{stats.total}</span>
+          <div className="glass-card p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-1">
+            <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">Total</span>
+            <span className="text-3xl font-black text-slate-900">{stats.total}</span>
           </div>
 
-          <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-1">
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Pending</span>
-            <span className="text-3xl font-black text-slate-300">{stats.pending}</span>
+          <div className="glass-card p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-1">
+            <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">Pending</span>
+            <span className="text-3xl font-black text-slate-700">{stats.pending}</span>
           </div>
 
-          <div className="glass-card p-5 rounded-2xl border border-blue-500/30 space-y-1">
-            <span className="text-[11px] font-semibold text-blue-400 uppercase tracking-wider block">Confirmed</span>
-            <span className="text-3xl font-black text-blue-400">{stats.confirmed}</span>
+          <div className="glass-card p-5 rounded-2xl border border-blue-200 bg-blue-50/50 shadow-sm space-y-1">
+            <span className="text-[11px] font-semibold text-blue-700 uppercase tracking-wider block">Confirmed</span>
+            <span className="text-3xl font-black text-blue-700">{stats.confirmed}</span>
           </div>
 
-          <div className="glass-card p-5 rounded-2xl border border-amber-500/30 space-y-1">
-            <span className="text-[11px] font-semibold text-amber-400 uppercase tracking-wider block">Assigned</span>
-            <span className="text-3xl font-black text-amber-400">{stats.assigned}</span>
+          <div className="glass-card p-5 rounded-2xl border border-amber-200 bg-amber-50/50 shadow-sm space-y-1">
+            <span className="text-[11px] font-semibold text-amber-700 uppercase tracking-wider block">Assigned</span>
+            <span className="text-3xl font-black text-amber-700">{stats.assigned}</span>
           </div>
 
-          <div className="glass-card p-5 rounded-2xl border border-purple-500/30 space-y-1">
-            <span className="text-[11px] font-semibold text-purple-400 uppercase tracking-wider block">In Transit</span>
-            <span className="text-3xl font-black text-purple-400">{stats.inTransit}</span>
+          <div className="glass-card p-5 rounded-2xl border border-purple-200 bg-purple-50/50 shadow-sm space-y-1">
+            <span className="text-[11px] font-semibold text-purple-700 uppercase tracking-wider block">In Transit</span>
+            <span className="text-3xl font-black text-purple-700">{stats.inTransit}</span>
           </div>
 
-          <div className="glass-card p-5 rounded-2xl border border-emerald-500/30 space-y-1">
-            <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider block">Completed</span>
-            <span className="text-3xl font-black text-emerald-400">{stats.completed}</span>
+          <div className="glass-card p-5 rounded-2xl border border-emerald-200 bg-emerald-50/50 shadow-sm space-y-1">
+            <span className="text-[11px] font-semibold text-emerald-700 uppercase tracking-wider block">Completed</span>
+            <span className="text-3xl font-black text-emerald-700">{stats.completed}</span>
           </div>
         </div>
 
         {/* Recent Bookings Section */}
-        <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <CalendarCheck className="w-5 h-5 text-orange-400" />
+        <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-200 bg-white shadow-sm space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <CalendarCheck className="w-5 h-5 text-orange-500" />
               Recent Customer Bookings
             </h2>
-            <Link href="/admin/bookings" className="text-xs font-semibold text-orange-400 hover:underline">
+            <Link href="/admin/bookings" className="text-xs font-semibold text-orange-600 hover:underline">
               View All ({bookings.length}) →
             </Link>
           </div>
 
           {isLoading ? (
-            <div className="py-12 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-orange-400" /> Loading bookings from Supabase DB...
+            <div className="py-12 text-center text-xs text-slate-500 flex items-center justify-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin text-orange-500" /> Loading bookings from Supabase DB...
             </div>
           ) : bookings.length === 0 ? (
-            <div className="py-12 text-center text-xs text-slate-400">
+            <div className="py-12 text-center text-xs text-slate-500">
               No customer bookings found in Supabase database.
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-900 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <thead className="bg-slate-50 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200">
                   <tr>
                     <th className="py-3 px-4">Booking Ref</th>
                     <th className="py-3 px-4">Customer</th>
@@ -213,33 +213,33 @@ export default function AdminDashboardPage() {
                     <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-slate-100">
                   {bookings.map((b) => (
-                    <tr key={b.id} className="hover:bg-slate-900/40 transition-colors">
-                      <td className="py-4 px-4 font-mono font-bold text-white">{b.booking_number}</td>
+                    <tr key={b.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="py-4 px-4 font-mono font-bold text-slate-900">{b.booking_number}</td>
                       <td className="py-4 px-4">
-                        <span className="font-semibold text-slate-200 block">{b.customer_name}</span>
+                        <span className="font-semibold text-slate-900 block">{b.customer_name}</span>
                         <span className="text-slate-500 text-[11px]">{b.customer_phone}</span>
                       </td>
-                      <td className="py-4 px-4 text-slate-300">
+                      <td className="py-4 px-4 text-slate-600">
                         {b.pickup_city} ➔ {b.drop_city}
                       </td>
-                      <td className="py-4 px-4 text-slate-300">
+                      <td className="py-4 px-4 text-slate-600">
                         {b.pickup_date} <br />
                         <span className="text-slate-500 text-[11px]">{b.pickup_time}</span>
                       </td>
-                      <td className="py-4 px-4 text-slate-300">{b.vehicle_type}</td>
+                      <td className="py-4 px-4 text-slate-600">{b.vehicle_type}</td>
                       <td className="py-4 px-4">
-                        {b.status === 'assigned' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">Assigned</span>}
-                        {b.status === 'confirmed' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">Confirmed</span>}
-                        {b.status === 'pending' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">Pending</span>}
-                        {b.status === 'in_transit' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-400 border border-purple-500/30">In Transit</span>}
-                        {b.status === 'completed' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Completed</span>}
+                        {b.status === 'assigned' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">Assigned</span>}
+                        {b.status === 'confirmed' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">Confirmed</span>}
+                        {b.status === 'pending' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">Pending</span>}
+                        {b.status === 'in_transit' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">In Transit</span>}
+                        {b.status === 'completed' && <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Completed</span>}
                       </td>
                       <td className="py-4 px-4 text-right">
                         <button
                           onClick={() => handleOpenAssignModal(b)}
-                          className="px-3 py-1.5 rounded-lg bg-orange-500/20 text-orange-400 hover:bg-orange-500/30 border border-orange-500/30 text-[11px] font-bold"
+                          className="px-3 py-1.5 rounded-lg bg-orange-50 text-orange-600 hover:bg-orange-100 border border-orange-200 text-[11px] font-bold transition-colors"
                         >
                           {b.assigned_vehicle_id || b.driver_name ? 'Re-Assign Vehicle' : 'Assign Vehicle'}
                         </button>
@@ -254,16 +254,16 @@ export default function AdminDashboardPage() {
 
         {/* Vehicle Assignment Modal */}
         {selectedBookingForAssign && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-700 max-w-lg w-full space-y-6 animate-in zoom-in-95">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-200 bg-white max-w-lg w-full space-y-6 shadow-2xl animate-in zoom-in-95">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-4">
                 <div>
-                  <h3 className="text-lg font-bold text-white">Assign Vehicle & Driver</h3>
-                  <span className="text-xs text-slate-400">Booking: {selectedBookingForAssign.booking_number} ({selectedBookingForAssign.customer_name})</span>
+                  <h3 className="text-lg font-bold text-slate-900">Assign Vehicle & Driver</h3>
+                  <span className="text-xs text-slate-500">Booking: {selectedBookingForAssign.booking_number} ({selectedBookingForAssign.customer_name})</span>
                 </div>
                 <button
                   onClick={() => setSelectedBookingForAssign(null)}
-                  className="text-slate-500 hover:text-white text-sm"
+                  className="text-slate-400 hover:text-slate-700 text-sm font-bold"
                 >
                   ✕
                 </button>
@@ -272,11 +272,11 @@ export default function AdminDashboardPage() {
               <div className="space-y-4 text-xs">
                 {vehicles.length > 0 && (
                   <div>
-                    <label className="text-slate-300 font-semibold mb-1 block">Quick Select Available Fleet Vehicle</label>
+                    <label className="text-slate-700 font-semibold mb-1 block">Quick Select Available Fleet Vehicle</label>
                     <select
                       value={selectedVehicleId}
                       onChange={(e) => handleSelectVehiclePreset(e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                     >
                       <option value="">-- Choose from Supabase Vehicles DB --</option>
                       {vehicles.map((v) => (
@@ -289,37 +289,37 @@ export default function AdminDashboardPage() {
                 )}
 
                 <div>
-                  <label className="text-slate-300 font-semibold mb-1 block">Assigned Driver Name</label>
+                  <label className="text-slate-700 font-semibold mb-1 block">Assigned Driver Name</label>
                   <input
                     type="text"
                     value={assignDriverName}
                     onChange={(e) => setAssignDriverName(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   />
                 </div>
 
                 <div>
-                  <label className="text-slate-300 font-semibold mb-1 block">Driver Phone Number</label>
+                  <label className="text-slate-700 font-semibold mb-1 block">Driver Phone Number</label>
                   <input
                     type="text"
                     value={assignDriverPhone}
                     onChange={(e) => setAssignDriverPhone(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   />
                 </div>
 
                 <div>
-                  <label className="text-slate-300 font-semibold mb-1 block">Vehicle Registration Number</label>
+                  <label className="text-slate-700 font-semibold mb-1 block">Vehicle Registration Number</label>
                   <input
                     type="text"
                     value={assignVehicleNumber}
                     onChange={(e) => setAssignVehicleNumber(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   />
                 </div>
 
-                <div className="bg-orange-500/10 border border-orange-500/20 p-3 rounded-xl text-orange-300 flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4 flex-shrink-0" />
+                <div className="bg-orange-50 border border-orange-200 p-3 rounded-xl text-orange-800 flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4 flex-shrink-0 text-orange-600" />
                   <span>Clicking save will automatically update Supabase DB and trigger WhatsApp notification.</span>
                 </div>
               </div>
@@ -327,13 +327,13 @@ export default function AdminDashboardPage() {
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   onClick={() => setSelectedBookingForAssign(null)}
-                  className="px-4 py-2 rounded-xl glass-card text-slate-300 text-xs font-semibold"
+                  className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold shadow-sm transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmVehicleAssign}
-                  className="px-6 py-2.5 rounded-xl brand-gradient-bg text-white text-xs font-bold shadow-glow"
+                  className="px-6 py-2.5 rounded-xl brand-gradient-bg text-white text-xs font-bold shadow-md hover:shadow-orange-500/25 transition-all"
                 >
                   Save & Dispatch Notification
                 </button>

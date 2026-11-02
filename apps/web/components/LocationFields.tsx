@@ -39,12 +39,12 @@ type Props = {
   errors?: Partial<Record<ErrKey, string>>;
 };
 
-const lbl = 'text-[11px] text-slate-400 mb-1 block';
+const lbl = 'text-[11px] text-slate-600 font-medium mb-1 block';
 const box = (bad?: string) =>
-  `w-full bg-slate-900 border ${bad ? 'border-red-500' : 'border-slate-700'} focus:border-orange-500 rounded-lg px-3 py-2.5 text-sm text-white outline-none`;
+  `w-full bg-white border ${bad ? 'border-red-500' : 'border-slate-200'} focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none transition-all`;
 const chip = (on: boolean, bad?: string) =>
   `px-3 py-2 rounded-lg border text-xs transition-all ${
-    on ? 'bg-orange-500/20 border-orange-500 text-white font-bold' : `bg-slate-900 text-slate-400 ${bad ? 'border-red-500' : 'border-slate-700'}`
+    on ? 'bg-orange-50 border-orange-500 text-orange-600 font-bold shadow-sm' : `bg-white text-slate-700 hover:bg-slate-50 ${bad ? 'border-red-500' : 'border-slate-200'}`
   }`;
 
 export function LocationFields({ label, value, onChange, errors = {} }: Props) {
@@ -52,8 +52,8 @@ export function LocationFields({ label, value, onChange, errors = {} }: Props) {
   const cities = CITIES.some((c) => c.city === value.city) || !value.city ? CITIES : [...CITIES, { city: value.city, state: value.state }];
 
   return (
-    <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-4 space-y-3">
-      <h3 className="text-sm font-bold text-white flex items-center gap-2">
+    <div className="bg-slate-50/80 border border-slate-200 rounded-2xl p-4 space-y-3 shadow-sm">
+      <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
         <MapPin className="w-4 h-4 text-orange-500" /> {label}
       </h3>
 
@@ -66,7 +66,7 @@ export function LocationFields({ label, value, onChange, errors = {} }: Props) {
             onChange={(e) => set({ address_line: e.target.value })}
             placeholder="12, Anna Salai, T. Nagar"
           />
-          <Search className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" />
         </div>
         <FieldError msg={errors.address_line} />
       </div>
@@ -146,8 +146,8 @@ export function LocationFields({ label, value, onChange, errors = {} }: Props) {
         </div>
       </div>
 
-      {value.parking_access === 'narrow' && <p className="text-xs text-amber-400">Large trucks may not fit. We may suggest a smaller vehicle.</p>}
-      {value.parking_access === 'far' && <p className="text-xs text-amber-400">Extra carrying charge may apply.</p>}
+      {value.parking_access === 'narrow' && <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 p-2 rounded-lg">Large trucks may not fit. We may suggest a smaller vehicle.</p>}
+      {value.parking_access === 'far' && <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 p-2 rounded-lg">Extra carrying charge may apply.</p>}
     </div>
   );
 }
@@ -155,7 +155,7 @@ export function LocationFields({ label, value, onChange, errors = {} }: Props) {
 export function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null;
   return (
-    <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+    <p className="text-xs text-red-600 mt-1 flex items-center gap-1 font-medium">
       <AlertCircle className="w-3 h-3 flex-shrink-0" /> {msg}
     </p>
   );

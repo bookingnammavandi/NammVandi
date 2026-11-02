@@ -1,7 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, CheckCircle2, AlertCircle, MessageSquare } from 'lucide-react';
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  CheckCircle2,
+  AlertCircle,
+  MessageSquare,
+  Send,
+  Sparkles,
+} from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 export default function ContactPage() {
@@ -18,7 +28,7 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setStatusMsg(null);
 
-    if (!name || !email || !phone || !message) {
+    if (!name.trim() || !email.trim() || !phone.trim() || !message.trim()) {
       setStatusMsg({ type: 'error', text: 'Please fill in all required fields.' });
       setIsSubmitting(false);
       return;
@@ -26,138 +36,218 @@ export default function ContactPage() {
 
     try {
       const supabase = createClient();
-      await supabase.from('contact_messages').insert([
-        { name, email, phone, subject, message, status: 'unread' },
+      const { error } = await supabase.from('contact_messages').insert([
+        { name: name.trim(), email: email.trim(), phone: phone.trim(), subject, message: message.trim(), status: 'unread' },
       ]);
-      setStatusMsg({ type: 'success', text: 'Thank you! Your message has been sent to NammaVandi support team.' });
+
+      if (error) throw error;
+
+      setStatusMsg({
+        type: 'success',
+        text: 'Thank you! Your message has been sent to the NammaVandi support team. We will get back to you shortly.',
+      });
       setName('');
       setEmail('');
       setPhone('');
       setMessage('');
-    } catch (err: any) {
-      setStatusMsg({ type: 'success', text: 'Thank you! Your message has been received.' });
+      setSubject('General Enquiry');
+    } catch {
+      setStatusMsg({
+        type: 'error',
+        text: 'Something went wrong while sending your message. Please try again or call us directly.',
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const fieldClass =
+    'w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all placeholder:text-slate-400';
+  const labelClass = 'text-xs font-semibold text-slate-700 mb-1.5 block';
+
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
-      <div className="text-center max-w-2xl mx-auto space-y-3">
-        <h1 className="text-4xl font-black text-white">Contact NammaVandi</h1>
-        <p className="text-slate-300 text-sm">Have questions about your move or need a custom enterprise quote? Get in touch with us.</p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 space-y-12 sm:space-y-14">
+      
+      {/* ───────────────────── HEADER ───────────────────── */}
+      <div className="text-center max-w-2xl mx-auto space-y-4">
+        <span className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wide text-orange-600 bg-orange-50 border border-orange-100 px-3.5 py-1.5 rounded-full">
+          <MessageSquare className="w-3.5 h-3.5" />
+          Get in Touch
+        </span>
+        <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">
+          Contact NammaVandi
+        </h1>
+        <p className="text-slate-500 text-base leading-relaxed">
+          Have questions about your move or need a custom enterprise quote? We’re here to help.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
         
-        {/* Contact Info Sidebar */}
-        <div className="lg:col-span-5 glass-panel p-8 rounded-3xl border border-slate-800 space-y-6">
-          <h3 className="text-lg font-bold text-white border-b border-slate-800 pb-3">Operational Head Office</h3>
-          
-          <ul className="space-y-4 text-xs">
-            <li className="flex items-start gap-3 text-slate-300">
-              <Phone className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-white">Customer Support Phone</strong>
-                <span>+91 98765 43210</span>
-              </div>
-            </li>
+        {/* ───────────────────── CONTACT INFO ───────────────────── */}
+        <div className="lg:col-span-5 space-y-5">
+          <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-7 shadow-sm space-y-6">
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-orange-500" />
+              Operational Head Office
+            </h3>
 
-            <li className="flex items-start gap-3 text-slate-300">
-              <Mail className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-white">Email Address</strong>
-                <span>support@NammaVandi.in</span>
-              </div>
-            </li>
+            <ul className="space-y-5">
+              <li className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                  <Phone className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-slate-500 mb-0.5">Customer Support</p>
+                  <a href="tel:+919876543210" className="text-sm font-semibold text-slate-900 hover:text-orange-600 transition-colors">
+                    +91 98765 43210
+                  </a>
+                </div>
+              </li>
 
-            <li className="flex items-start gap-3 text-slate-300">
-              <MapPin className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-white">Logistics Hub Address</strong>
-                <span>NammaVandi Logistics Hub, Anna Salai, T. Nagar, Chennai, Tamil Nadu - 600017</span>
-              </div>
-            </li>
+              <li className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-slate-500 mb-0.5">Email</p>
+                  <a href="mailto:support@NammaVandi.in" className="text-sm font-semibold text-slate-900 hover:text-orange-600 transition-colors break-all">
+                    support@NammaVandi.in
+                  </a>
+                </div>
+              </li>
 
-            <li className="flex items-start gap-3 text-slate-300">
-              <Clock className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-white">Business Working Hours</strong>
-                <span>Monday to Sunday: 06:00 AM – 10:00 PM</span>
-              </div>
-            </li>
-          </ul>
+              <li className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                  <MapPin className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-slate-500 mb-0.5">Logistics Hub</p>
+                  <p className="text-sm text-slate-700 leading-relaxed">
+                    NammaVandi Logistics Hub, Anna Salai, T. Nagar, Chennai, Tamil Nadu – 600017
+                  </p>
+                </div>
+              </li>
 
-          <div className="pt-4 border-t border-slate-800">
-            <span className="text-xs text-slate-400 font-bold block mb-2">Key Service Cities</span>
-            <div className="flex flex-wrap gap-1.5 text-[11px] text-slate-300">
-              {['Chennai', 'Coimbatore', 'Bengaluru', 'Madurai', 'Trichy', 'Salem', 'Pondicherry', 'Hyderabad'].map((city) => (
-                <span key={city} className="bg-slate-900 border border-slate-800 px-2 py-0.5 rounded">
-                  {city}
-                </span>
-              ))}
+              <li className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                  <Clock className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-slate-500 mb-0.5">Working Hours</p>
+                  <p className="text-sm text-slate-700">Monday – Sunday · 06:00 AM – 10:00 PM</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* Service Cities */}
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 sm:p-6">
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">
+              Key Service Cities
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {['Chennai', 'Coimbatore', 'Bengaluru', 'Madurai', 'Trichy', 'Salem', 'Pondicherry', 'Hyderabad'].map(
+                (city) => (
+                  <span
+                    key={city}
+                    className="text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg"
+                  >
+                    {city}
+                  </span>
+                )
+              )}
             </div>
           </div>
         </div>
 
-        {/* Contact Form */}
-        <div className="lg:col-span-7 glass-card p-8 rounded-3xl border border-slate-800 space-y-6">
-          <h3 className="text-lg font-bold text-white">Send Us a Message</h3>
+        {/* ───────────────────── CONTACT FORM ───────────────────── */}
+        <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-100 text-orange-600 flex items-center justify-center">
+              <Send className="w-4 h-4" />
+            </div>
+            <h3 className="text-lg font-bold text-slate-900">Send Us a Message</h3>
+          </div>
 
           {statusMsg && (
-            <div className={`p-4 rounded-xl text-xs flex items-center gap-2 ${
-              statusMsg.type === 'success' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/10 text-red-400 border border-red-500/30'
-            }`}>
-              {statusMsg.type === 'success' ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
-              <span>{statusMsg.text}</span>
+            <div
+              className={`mb-5 p-4 rounded-xl text-sm flex items-start gap-2.5 ${
+                statusMsg.type === 'success'
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-100'
+                  : 'bg-red-50 text-red-700 border border-red-100'
+              }`}
+            >
+              {statusMsg.type === 'success' ? (
+                <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
+              ) : (
+                <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+              )}
+              <span className="leading-relaxed">{statusMsg.text}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-slate-300 font-semibold mb-1 block">Your Name *</label>
+              <label htmlFor="name" className={labelClass}>
+                Your Name <span className="text-orange-500">*</span>
+              </label>
               <input
+                id="name"
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Ramesh Kumar"
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-orange-500"
+                className={fieldClass}
+                disabled={isSubmitting}
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-slate-300 font-semibold mb-1 block">Phone Number *</label>
+                <label htmlFor="phone" className={labelClass}>
+                  Phone Number <span className="text-orange-500">*</span>
+                </label>
                 <input
-                  type="text"
+                  id="phone"
+                  type="tel"
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+91 98765 43210"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-orange-500"
+                  className={fieldClass}
+                  disabled={isSubmitting}
                 />
               </div>
 
               <div>
-                <label className="text-slate-300 font-semibold mb-1 block">Email Address *</label>
+                <label htmlFor="email" className={labelClass}>
+                  Email Address <span className="text-orange-500">*</span>
+                </label>
                 <input
+                  id="email"
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="ramesh@example.com"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-orange-500"
+                  className={fieldClass}
+                  disabled={isSubmitting}
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold mb-1 block">Subject</label>
+              <label htmlFor="subject" className={labelClass}>
+                Subject
+              </label>
               <select
+                id="subject"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none"
+                className={fieldClass}
+                disabled={isSubmitting}
               >
                 <option value="General Enquiry">General Enquiry</option>
                 <option value="House Move Quote">House Move Quote</option>
@@ -168,27 +258,40 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold mb-1 block">Your Message *</label>
+              <label htmlFor="message" className={labelClass}>
+                Your Message <span className="text-orange-500">*</span>
+              </label>
               <textarea
-                rows={4}
+                id="message"
+                rows={5}
                 required
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Details about your move..."
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-orange-500"
+                placeholder="Tell us about your move, preferred dates, or any special requirements..."
+                className={`${fieldClass} resize-y min-h-[120px]`}
+                disabled={isSubmitting}
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3.5 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-glow hover:opacity-95"
+              className="w-full mt-2 py-3.5 rounded-xl brand-gradient-bg text-white font-bold text-sm shadow-glow hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:active:scale-100"
             >
-              {isSubmitting ? 'Sending Message...' : 'Send Message'}
+              {isSubmitting ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Sending Message...
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4" />
+                  Send Message
+                </>
+              )}
             </button>
           </form>
         </div>
-
       </div>
     </div>
   );

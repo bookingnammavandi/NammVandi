@@ -12,57 +12,57 @@ interface PriceEstimatorWidgetProps {
 
 export function PriceEstimatorWidget({ breakdown, pickupCity, dropCity }: PriceEstimatorWidgetProps) {
   return (
-    <div className="glass-card rounded-2xl p-6 border border-slate-700/70 space-y-4">
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-        <div className="flex items-center gap-2 text-white font-bold text-sm">
+    <div className="glass-card rounded-2xl p-6 border border-slate-200 bg-white shadow-sm space-y-4">
+      <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
           <Calculator className="w-4 h-4 text-orange-500" />
           <span>Estimated Moving Cost</span>
         </div>
-        <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+        <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
           No Pre-Payment Required
         </span>
       </div>
 
       <div className="space-y-2 text-xs">
-        <div className="flex justify-between text-slate-400">
+        <div className="flex justify-between text-slate-500">
           <span>Base Booking Charge</span>
-          <span className="text-slate-200 font-medium">₹{breakdown.basePrice.toLocaleString()}</span>
+          <span className="text-slate-800 font-semibold">₹{breakdown.basePrice.toLocaleString()}</span>
         </div>
 
-        <div className="flex justify-between text-slate-400">
+        <div className="flex justify-between text-slate-500">
           <span>Route ({pickupCity} ➔ {dropCity} ~{breakdown.distanceKm} km)</span>
-          <span className="text-slate-200 font-medium">₹{breakdown.distanceCharge.toLocaleString()}</span>
+          <span className="text-slate-800 font-semibold">₹{breakdown.distanceCharge.toLocaleString()}</span>
         </div>
 
         {breakdown.floorCharge > 0 && (
-          <div className="flex justify-between text-slate-400">
+          <div className="flex justify-between text-slate-500">
             <span>Floor / Staircase Handling</span>
-            <span className="text-slate-200 font-medium">₹{breakdown.floorCharge.toLocaleString()}</span>
+            <span className="text-slate-800 font-semibold">₹{breakdown.floorCharge.toLocaleString()}</span>
           </div>
         )}
 
         {breakdown.packingCharge > 0 && (
-          <div className="flex justify-between text-slate-400">
+          <div className="flex justify-between text-slate-500">
             <span>Packing Materials & Service</span>
-            <span className="text-slate-200 font-medium">₹{breakdown.packingCharge.toLocaleString()}</span>
+            <span className="text-slate-800 font-semibold">₹{breakdown.packingCharge.toLocaleString()}</span>
           </div>
         )}
       </div>
 
-      <div className="pt-3 border-t border-slate-800 flex items-baseline justify-between">
+      <div className="pt-3 border-t border-slate-200 flex items-baseline justify-between">
         <div>
-          <span className="text-xs text-slate-400 font-medium block">Total Estimate</span>
-          <span className="text-[10px] text-slate-500">Taxes extra as applicable</span>
+          <span className="text-xs text-slate-600 font-medium block">Total Estimate</span>
+          <span className="text-[10px] text-slate-400">Taxes extra as applicable</span>
         </div>
         <div className="text-right">
-          <span className="text-2xl font-black text-orange-400">
+          <span className="text-2xl font-black text-orange-600">
             ₹{breakdown.totalEstimatedPrice.toLocaleString()}
           </span>
         </div>
       </div>
 
-      <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex items-start gap-2 text-[11px] text-slate-400">
-        <Info className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
+      <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-start gap-2 text-[11px] text-slate-600">
+        <Info className="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5" />
         <p className="leading-snug">{breakdown.disclaimer}</p>
       </div>
     </div>

@@ -42,20 +42,20 @@ export function GoogleAddressInput({ label, value, onChange, error }: GoogleAddr
   }, [searchTerm, selectedCity, floor, pincode]);
 
   return (
-    <div className="space-y-4 glass-card p-5 rounded-2xl border border-slate-700/60">
+    <div className="space-y-4 glass-card p-5 rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-semibold text-white flex items-center gap-2">
+        <label className="text-sm font-semibold text-slate-800 flex items-center gap-2">
           <MapPin className="w-4 h-4 text-orange-500" />
           {label}
         </label>
-        <span className="text-[11px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+        <span className="text-[11px] text-slate-600 bg-slate-100 px-2 py-0.5 rounded font-medium">
           {selectedCity}
         </span>
       </div>
 
       {/* Address Line Search / Input */}
       <div>
-        <label className="text-xs text-slate-400 font-medium mb-1 block">
+        <label className="text-xs text-slate-500 font-medium mb-1 block">
           Street / Door No / Apartment / Area Name
         </label>
         <div className="relative">
@@ -64,20 +64,20 @@ export function GoogleAddressInput({ label, value, onChange, error }: GoogleAddr
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="e.g. 12B, Anna Salai, T. Nagar"
-            className="w-full bg-slate-900/90 border border-slate-700 focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all"
+            className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:ring-1 focus:ring-orange-500 outline-none transition-all"
           />
-          <Search className="w-4 h-4 text-slate-500 absolute right-3.5 top-3.5" />
+          <Search className="w-4 h-4 text-slate-400 absolute right-3.5 top-3.5" />
         </div>
       </div>
 
       {/* City & Floor Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
-          <label className="text-xs text-slate-400 font-medium mb-1 block">City</label>
+          <label className="text-xs text-slate-500 font-medium mb-1 block">City</label>
           <select
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-white outline-none"
+            className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-slate-900 outline-none"
           >
             {CITY_OPTIONS.map((c) => (
               <option key={c.city} value={c.city}>
@@ -88,22 +88,22 @@ export function GoogleAddressInput({ label, value, onChange, error }: GoogleAddr
         </div>
 
         <div>
-          <label className="text-xs text-slate-400 font-medium mb-1 block">Pincode</label>
+          <label className="text-xs text-slate-500 font-medium mb-1 block">Pincode</label>
           <input
             type="text"
             value={pincode}
             onChange={(e) => setPincode(e.target.value.replace(/\D/g, '').slice(0, 6))}
             placeholder="600017"
-            className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-white outline-none"
+            className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-slate-900 outline-none"
           />
         </div>
 
         <div>
-          <label className="text-xs text-slate-400 font-medium mb-1 block">Floor No.</label>
+          <label className="text-xs text-slate-500 font-medium mb-1 block">Floor No.</label>
           <select
             value={floor}
             onChange={(e) => setFloor(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-white outline-none"
+            className="w-full bg-slate-50 border border-slate-200 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-slate-900 outline-none"
           >
             <option value="0">Ground Floor / Lift available</option>
             <option value="1">1st Floor</option>
@@ -116,7 +116,7 @@ export function GoogleAddressInput({ label, value, onChange, error }: GoogleAddr
       </div>
 
       {error && (
-        <div className="flex items-center gap-1.5 text-xs text-red-400">
+        <div className="flex items-center gap-1.5 text-xs text-red-600 font-medium">
           <AlertCircle className="w-3.5 h-3.5" />
           <span>{error}</span>
         </div>

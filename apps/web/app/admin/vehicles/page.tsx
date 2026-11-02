@@ -198,21 +198,21 @@ export default function AdminVehiclesPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-white">Vehicle & Drivers</h1>
-            {/* <p className="text-xs text-slate-400 mt-1">Manage live fleet trucks, drivers, and real-time availability connected to Supabase DB API.</p> */}
+            <h1 className="text-2xl font-black text-slate-900">Vehicle & Drivers</h1>
+            {/* <p className="text-xs text-slate-500 mt-1">Manage live fleet trucks, drivers, and real-time availability connected to Supabase DB API.</p> */}
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={fetchVehicles}
               disabled={isLoading}
-              className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 transition-colors"
+              className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors shadow-sm"
               title="Refresh Fleet Data"
             >
               <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
             </button>
             <button
               onClick={() => setShowAddModal(true)}
-              className="px-5 py-2.5 rounded-xl brand-gradient-bg text-white font-bold text-xs shadow-glow flex items-center gap-2 self-start"
+              className="px-5 py-2.5 rounded-xl brand-gradient-bg text-white font-bold text-xs shadow-md hover:shadow-orange-500/25 flex items-center gap-2 self-start"
             >
               <Plus className="w-4 h-4" /> Add New Vehicle
             </button>
@@ -221,14 +221,14 @@ export default function AdminVehiclesPage() {
 
         {/* Success / Error Messages */}
         {successMsg && (
-          <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 p-4 rounded-xl text-xs flex items-center gap-2">
+          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-xl text-xs flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
             <span>{successMsg}</span>
           </div>
         )}
 
         {errorMsg && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-xl text-xs flex items-center gap-2">
+          <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{errorMsg}</span>
           </div>
@@ -237,17 +237,17 @@ export default function AdminVehiclesPage() {
         {/* Fleet Loading / Grid */}
         {isLoading ? (
           <div className="py-20 text-center space-y-3">
-            <Loader2 className="w-8 h-8 text-orange-400 animate-spin mx-auto" />
-            <p className="text-xs text-slate-400">Loading vehicle fleet from Supabase database API...</p>
+            <Loader2 className="w-8 h-8 text-orange-500 animate-spin mx-auto" />
+            <p className="text-xs text-slate-500">Loading vehicle fleet from Supabase database API...</p>
           </div>
         ) : vehicles.length === 0 ? (
-          <div className="glass-card p-12 text-center rounded-3xl border border-slate-800 space-y-4">
-            <Truck className="w-12 h-12 text-slate-600 mx-auto" />
-            <h3 className="text-base font-bold text-white">No Vehicles Found</h3>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">There are no vehicle records in your Supabase database. Click below to add your first vehicle.</p>
+          <div className="glass-card p-12 text-center rounded-3xl border border-slate-200 bg-white shadow-sm space-y-4">
+            <Truck className="w-12 h-12 text-slate-400 mx-auto" />
+            <h3 className="text-base font-bold text-slate-900">No Vehicles Found</h3>
+            <p className="text-xs text-slate-500 max-w-sm mx-auto">There are no vehicle records in your Supabase database. Click below to add your first vehicle.</p>
             <button
               onClick={() => setShowAddModal(true)}
-              className="px-5 py-2 rounded-xl brand-gradient-bg text-white font-bold text-xs shadow-glow inline-flex items-center gap-2"
+              className="px-5 py-2 rounded-xl brand-gradient-bg text-white font-bold text-xs shadow-md hover:shadow-orange-500/25 inline-flex items-center gap-2"
             >
               <Plus className="w-4 h-4" /> Add New Vehicle
             </button>
@@ -255,15 +255,15 @@ export default function AdminVehiclesPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {vehicles.map((v) => (
-              <div key={v.id} className="glass-card p-6 rounded-2xl border border-slate-800 space-y-4 relative group">
+              <div key={v.id} className="glass-card p-6 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-4 relative group">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-base font-black text-white">{v.vehicle_number}</span>
+                  <span className="font-mono text-base font-black text-slate-900">{v.vehicle_number}</span>
                   <button
                     onClick={() => toggleAvailability(v)}
                     className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
                       v.is_available
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                        : 'bg-red-50 text-red-600 border border-red-200'
                     }`}
                   >
                     {v.is_available ? '● Available' : '● On Trip / Busy'}
@@ -271,33 +271,33 @@ export default function AdminVehiclesPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-slate-200">{v.vehicle_model}</h3>
-                  <span className="text-xs text-orange-400 font-semibold">{v.vehicle_type}</span>
-                  <p className="text-xs text-slate-400">Capacity: {v.capacity_kg || 1000} kg</p>
+                  <h3 className="text-sm font-bold text-slate-900">{v.vehicle_model}</h3>
+                  <span className="text-xs text-orange-600 font-semibold">{v.vehicle_type}</span>
+                  <p className="text-xs text-slate-500">Capacity: {v.capacity_kg || 1000} kg</p>
                 </div>
 
-                <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800 space-y-1 text-xs">
+                <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-400">Assigned Driver:</span>
-                    <span className="text-white font-bold">{v.driver_name || 'Unassigned'}</span>
+                    <span className="text-slate-500">Assigned Driver:</span>
+                    <span className="text-slate-900 font-bold">{v.driver_name || 'Unassigned'}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-400">Driver Phone:</span>
-                    <span className="text-slate-200 font-semibold">{v.driver_phone || 'N/A'}</span>
+                    <span className="text-slate-500">Driver Phone:</span>
+                    <span className="text-slate-700 font-semibold">{v.driver_phone || 'N/A'}</span>
                   </div>
                 </div>
 
                 {/* Actions Footer */}
-                <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800/60">
+                <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
                   <button
                     onClick={() => handleOpenEdit(v)}
-                    className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                    className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 text-xs font-semibold flex items-center gap-1.5 transition-colors"
                   >
-                    <Edit3 className="w-3.5 h-3.5 text-orange-400" /> Edit Row
+                    <Edit3 className="w-3.5 h-3.5 text-orange-600" /> Edit Row
                   </button>
                   <button
                     onClick={() => handleDeleteVehicle(v.id)}
-                    className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 text-xs font-semibold transition-colors"
+                    className="p-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 text-xs font-semibold transition-colors"
                     title="Delete Vehicle"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -310,41 +310,41 @@ export default function AdminVehiclesPage() {
 
         {/* Add Modal */}
         {showAddModal && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <form onSubmit={handleAddVehicle} className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-700 max-w-md w-full space-y-4">
-              <h3 className="text-lg font-bold text-white">Add Vehicle to Supabase Fleet</h3>
+          <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <form onSubmit={handleAddVehicle} className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-200 bg-white shadow-2xl max-w-md w-full space-y-4">
+              <h3 className="text-lg font-bold text-slate-900">Add Vehicle to Supabase Fleet</h3>
               
               <div>
-                <label className="text-xs text-slate-300 font-semibold mb-1 block">Vehicle Number *</label>
+                <label className="text-xs text-slate-700 font-semibold mb-1 block">Vehicle Number *</label>
                 <input
                   type="text"
                   required
                   value={newNumber}
                   onChange={(e) => setNewNumber(e.target.value)}
                   placeholder="TN 05 AB 1234"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="text-xs text-slate-300 font-semibold mb-1 block">Vehicle Model *</label>
+                <label className="text-xs text-slate-700 font-semibold mb-1 block">Vehicle Model *</label>
                 <input
                   type="text"
                   required
                   value={newModel}
                   onChange={(e) => setNewModel(e.target.value)}
                   placeholder="Eicher Pro 2059"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-slate-300 font-semibold mb-1 block">Type Category *</label>
+                  <label className="text-xs text-slate-700 font-semibold mb-1 block">Type Category *</label>
                   <select
                     value={newType}
                     onChange={(e) => setNewType(e.target.value as any)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                   >
                     <option value="Eicher Tempo">Eicher Tempo</option>
                     <option value="Mini Truck">Mini Truck</option>
@@ -355,36 +355,36 @@ export default function AdminVehiclesPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs text-slate-300 font-semibold mb-1 block">Capacity (kg)</label>
+                  <label className="text-xs text-slate-700 font-semibold mb-1 block">Capacity (kg)</label>
                   <input
                     type="number"
                     value={newCapacity}
                     onChange={(e) => setNewCapacity(Number(e.target.value))}
                     placeholder="2500"
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs text-slate-300 font-semibold mb-1 block">Driver Name</label>
+                <label className="text-xs text-slate-700 font-semibold mb-1 block">Driver Name</label>
                 <input
                   type="text"
                   value={newDriver}
                   onChange={(e) => setNewDriver(e.target.value)}
                   placeholder="Rajesh Kumar"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="text-xs text-slate-300 font-semibold mb-1 block">Driver Phone</label>
+                <label className="text-xs text-slate-700 font-semibold mb-1 block">Driver Phone</label>
                 <input
                   type="text"
                   value={newDriverPhone}
                   onChange={(e) => setNewDriverPhone(e.target.value)}
                   placeholder="+91 98765 43210"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
@@ -392,14 +392,14 @@ export default function AdminVehiclesPage() {
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 rounded-xl glass-card text-xs text-slate-300 hover:text-white"
+                  className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 hover:bg-slate-50 font-semibold shadow-sm"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-6 py-2 rounded-xl brand-gradient-bg text-white text-xs font-bold shadow-glow flex items-center gap-2"
+                  className="px-6 py-2 rounded-xl brand-gradient-bg text-white text-xs font-bold shadow-md hover:shadow-orange-500/25 flex items-center gap-2"
                 >
                   {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   Add Vehicle
@@ -411,48 +411,48 @@ export default function AdminVehiclesPage() {
 
         {/* Edit Row Modal */}
         {editingVehicle && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <form onSubmit={handleUpdateVehicle} className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-700 max-w-md w-full space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-lg font-bold text-white">Edit Vehicle Row</h3>
+          <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <form onSubmit={handleUpdateVehicle} className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-200 bg-white shadow-2xl max-w-md w-full space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                <h3 className="text-lg font-bold text-slate-900">Edit Vehicle Row</h3>
                 <button
                   type="button"
                   onClick={() => setEditingVehicle(null)}
-                  className="text-slate-400 hover:text-white text-xs"
+                  className="text-slate-400 hover:text-slate-700 text-xs font-bold"
                 >
                   ✕
                 </button>
               </div>
 
               <div>
-                <label className="text-xs text-slate-300 font-semibold mb-1 block">Vehicle Registration Number *</label>
+                <label className="text-xs text-slate-700 font-semibold mb-1 block">Vehicle Registration Number *</label>
                 <input
                   type="text"
                   required
                   value={editNumber}
                   onChange={(e) => setEditNumber(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none font-mono"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500 font-mono"
                 />
               </div>
 
               <div>
-                <label className="text-xs text-slate-300 font-semibold mb-1 block">Vehicle Model *</label>
+                <label className="text-xs text-slate-700 font-semibold mb-1 block">Vehicle Model *</label>
                 <input
                   type="text"
                   required
                   value={editModel}
                   onChange={(e) => setEditModel(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-slate-300 font-semibold mb-1 block">Vehicle Type *</label>
+                  <label className="text-xs text-slate-700 font-semibold mb-1 block">Vehicle Type *</label>
                   <select
                     value={editType}
                     onChange={(e) => setEditType(e.target.value as any)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                   >
                     <option value="Eicher Tempo">Eicher Tempo</option>
                     <option value="Mini Truck">Mini Truck</option>
@@ -463,70 +463,70 @@ export default function AdminVehiclesPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs text-slate-300 font-semibold mb-1 block">Capacity (kg)</label>
+                  <label className="text-xs text-slate-700 font-semibold mb-1 block">Capacity (kg)</label>
                   <input
                     type="number"
                     value={editCapacity}
                     onChange={(e) => setEditCapacity(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs text-slate-300 font-semibold mb-1 block">Assigned Driver Name</label>
+                <label className="text-xs text-slate-700 font-semibold mb-1 block">Assigned Driver Name</label>
                 <input
                   type="text"
                   value={editDriver}
                   onChange={(e) => setEditDriver(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="text-xs text-slate-300 font-semibold mb-1 block">Driver Phone Number</label>
+                <label className="text-xs text-slate-700 font-semibold mb-1 block">Driver Phone Number</label>
                 <input
                   type="text"
                   value={editDriverPhone}
                   onChange={(e) => setEditDriverPhone(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-orange-500 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:border-orange-500 outline-none focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div className="flex items-center justify-between pt-2">
-                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer font-medium">
                   <input
                     type="checkbox"
                     checked={editIsAvailable}
                     onChange={(e) => setEditIsAvailable(e.target.checked)}
-                    className="rounded bg-slate-900 border-slate-700 text-orange-500 focus:ring-0"
+                    className="rounded border-slate-300 text-orange-600 focus:ring-orange-500"
                   />
                   <span>Mark Available for Trips</span>
                 </label>
 
-                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer font-medium">
                   <input
                     type="checkbox"
                     checked={editIsActive}
                     onChange={(e) => setEditIsActive(e.target.checked)}
-                    className="rounded bg-slate-900 border-slate-700 text-orange-500 focus:ring-0"
+                    className="rounded border-slate-300 text-orange-600 focus:ring-orange-500"
                   />
                   <span>Active in Fleet</span>
                 </label>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
                 <button
                   type="button"
                   onClick={() => setEditingVehicle(null)}
-                  className="px-4 py-2 rounded-xl glass-card text-xs text-slate-300 hover:text-white"
+                  className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 hover:bg-slate-50 font-semibold shadow-sm"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-6 py-2 rounded-xl brand-gradient-bg text-white text-xs font-bold shadow-glow flex items-center gap-2"
+                  className="px-6 py-2 rounded-xl brand-gradient-bg text-white text-xs font-bold shadow-md hover:shadow-orange-500/25 flex items-center gap-2"
                 >
                   {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   Save Changes
